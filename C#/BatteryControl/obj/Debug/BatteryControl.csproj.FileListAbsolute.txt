@@ -1,0 +1,10 @@
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\bin\Debug\BatteryControl.dll
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\bin\Debug\BatteryControl.pdb
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.csproj.AssemblyReference.cache
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.csproj.CoreCompileInputs.cache
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.dll
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.pdb
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.BatteryStatusControl.resources
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.csproj.GenerateResource.cache
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\obj\Debug\BatteryControl.Properties.Resources.resources
+C:\coding\windows_desktop\LinkiaFP\M07\BatteryControl\bin\Debug\icon_battery.png
