@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_media_buttons">12dp</dimen>
+    <dimen name="dimen_play_media_button_list">50dp</dimen>
+    <dimen name="dimen_media_button_list">25dp</dimen>
+    <dimen name="margin_title_list">10dp</dimen>
+    <dimen name="dimen_fill_space">0dp</dimen>
+    <dimen name="text_size_title_list">18sp</dimen>
+</resources>
