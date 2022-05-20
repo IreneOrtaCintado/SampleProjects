@@ -2,7 +2,7 @@
 
 <h2>JAVA PROJECTS</h2>
 
-<h3>Course Schedule Manager (not finished yet)</h3>
+<h3>Course Schedule Manager (not available, not finished yet)</h3>
 <p>A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.<br></p>
 
 <table align="center">
