@@ -37,7 +37,7 @@
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/utMediaPlayer/mediaPlayer.png" 
                     alt="Mediaplayer" title="Mediaplayer" style="height:20em;">
          </td>
-  </tr>
+     </tr>
 </table>
 
 <h3>CatchGame</h3>
