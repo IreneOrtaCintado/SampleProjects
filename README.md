@@ -3,7 +3,14 @@ The sample projects in this repository are assingments completed during the prof
 <h2>JAVA PROJECTS</h2>
 
 <h3>Course Schedule Manager (not finished yet)</h3>
-A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final score. The students can access the platform to view their grades.
+A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.
+
+<div align="center">
+     <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/1.%20Login.jpeg"
+          alt="CSM-Login" title="CSM-Login" style="height:20em;">
+</div>
+
+
 
 <h2>ANDROID PROJECTS</h2>
 
@@ -22,11 +29,11 @@ Game for Android, where the player has to catch fruit that is falling from the t
   <tr>
     <td>
       <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/start.png" 
-           alt="CatchGame - Game screen" title="CatchGame - Start screen" style="height:20em;">
+           alt="CatchGame-StartScreen" title="CatchGame-StartScreen" style="height:20em;">
     </td>
     <td>
       <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/game.png" 
-           alt="CatchGame - Game screen" title="CatchGame - Game  screen" style="height:20em;">
+           alt="CatchGame-GameScreen"" title="CatchGame-GameScreen" style="height:20em;">
     </td>
   </tr>
 </table>
