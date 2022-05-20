@@ -12,4 +12,4 @@ Music player application for Android. It is a simple music player app, that acce
 -- CatchGame --
 Game for Android, where the player has to catch fruit that is falling from the top to the bottom of the screen. If the fruit is not caught, the player loses points. There are also snakes and spiders falling and, if caught, make the player lose a live. The speed of the fruit and the number of enemies increases over time.
 
-<img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/game.png" alt="CatchGame - Game screen" title="CatchGame - Game screen" style="hight:10em">
+<img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/game.png" alt="CatchGame - Game screen" title="CatchGame - Game screen" style="height:10em">
