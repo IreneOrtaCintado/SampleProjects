@@ -1,10 +1,11 @@
-The sample projects in this repository are assingments completed during the professional multiplaform development degree that I am currently finishing.
+The sample projects in this repository are assingments completed during the professional multiplaform development degree that I am currently attending.
 
 <h2>JAVA PROJECTS</h2>
 
 <h3>Course Schedule Manager (not finished yet)</h3>
 A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final score. The students can access the platform to view their grades.
 
+<br>
 
 <h2>ANDROID PROJECTS</h2>
 
