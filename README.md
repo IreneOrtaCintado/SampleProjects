@@ -4,13 +4,21 @@ The sample projects in this repository are assingments completed during the prof
 
 <h3>Course Schedule Manager (not finished yet)</h3>
 A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.
-
+<br>
 <div align="center">
      <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/1.%20Login.jpeg"
-          alt="CSM-Login" title="CSM-Login" style="height:20em;">
+          alt="CSM-Login" title="CSM-Login" style="height:25em;">
 </div>
 
+<div align="center">
+     <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/2.%20Main%20Window.jpeg"
+          alt="CSM-Login" title="CSM-Login" style="height:25em;">
+</div>
 
+<div align="center">
+     <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/3.%20Classroom%20Log.jpeg"
+          alt="CSM-Login" title="CSM-Login" style="height:25em;">
+</div>
 
 <h2>ANDROID PROJECTS</h2>
 
