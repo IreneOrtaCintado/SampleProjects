@@ -8,19 +8,19 @@
 <table align="center">
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/1.%20Login.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/gestorprogramaciones/1.%20Login.jpeg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/2.%20Main%20Window.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/gestorprogramaciones/2.%20Main%20Window.jpeg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/Course%20Schedule%20Manager/3.%20Classroom%20Log.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/gestorprogramaciones/3.%20Classroom%20Log.jpeg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
@@ -34,7 +34,7 @@
 <table align="center">
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/utMediaPlayer/mediaPlayer.png" 
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/utmediaplayer/mediaPlayer.png" 
                     alt="Mediaplayer" title="Mediaplayer" style="height:20em;">
          </td>
      </tr>
@@ -46,11 +46,11 @@
 <table align="center">
   <tr>
     <td>
-      <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/start.png" 
+      <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/catchgame/start.png" 
            alt="CatchGame-StartScreen" title="CatchGame-StartScreen" style="height:20em;">
     </td>
     <td>
-      <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/Screenshots/CatchGame/game.png" 
+      <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/catchgame/game.png" 
            alt="CatchGame-GameScreen"" title="CatchGame-GameScreen" style="height:20em;">
     </td>
   </tr>
