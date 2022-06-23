@@ -48,6 +48,7 @@
     <td>
       <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/catchgame/start.png" 
            alt="CatchGame-StartScreen" title="CatchGame-StartScreen" style="height:20em;">
+         ![start game] (/docs/assets/images/catchgame/start.png)
     </td>
     <td>
       <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/catchgame/game.png" 
