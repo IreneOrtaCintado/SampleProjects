@@ -14,13 +14,13 @@
      </tr>
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/Course%20Schedule%20Manager/2.%20Main%20Window.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/gestorprogramaciones/2.%20Main%20Window.jpeg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/Course%20Schedule%20Manager/3.%20Classroom%20Log.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/assets/images/gestorprogramaciones/3.%20Classroom%20Log.jpeg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
