@@ -1,0 +1,138 @@
+<odoo>
+    <data noupdate="0">
+        <!-- Users	-->
+        <record id="user_irene_orta" model="res.users">
+            <field name="name">Irene Orta Cintado</field>
+            <field name="login">irene_orta</field>
+            <field name="password">irene</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_training_ioc_user'), ref('base.group_user')])]"/>
+        </record>
+
+        <!-- Employees	-->
+        <record id="employee_irene_orta" model="hr.employee">
+            <field name="name">Irene Orta Cintado</field>
+            <field name="user_id" ref="user_irene_orta"/>
+            <field name="work_phone">+34777884422</field>
+            <field name="work_email">irene_orta@juguetesreunidos.com</field>
+        </record>
+
+        <!-- Courses	-->
+        <record id="course_odoo_b1" model="training_ioc.course">
+            <field name="name">Odoo Workflow</field>
+            <field name="num_hours">20</field>
+            <field name="description">Learn to work efficiently with Odoo</field>
+            <field name="level">basic</field>
+        </record>
+
+        <record id="course_toy_dev_i1" model="training_ioc.course">
+            <field name="name">Toy Development</field>
+            <field name="num_hours">100</field>
+            <field name="description">Design more engaging toys for every age group</field>
+            <field name="level">intermediate</field>
+        </record>
+
+        <record id="course_product_safety_a1" model="training_ioc.course">
+            <field name="name">Product Safety Standards</field>
+            <field name="num_hours">79</field>
+            <field name="description">Review of the latest toy safety regulations in the EU</field>
+            <field name="level">advanced</field>
+        </record>
+
+        <!-- Seminars & Sessions	-->
+
+        <record id="seminar_odoo_b1_1" model="training_ioc.seminar">
+            <field name="course_id" ref="course_odoo_b1"/>
+            <field name="date_begin">2021-06-06</field>
+            <field name="date_end">2021-06-27</field>
+            <field name="hours_per_session">3.5</field>
+            <field name="trainer_id" ref="res_partner_address_210"/>
+            <field name="trained_employee"
+                   eval="[  (6,0,[  ref('tioc_employee_hne'),
+                                    ref('tioc_employee_jgo'),
+                                    ref('tioc_employee_jog')])]"/>
+        </record>
+
+        <record id="session_odoo_b1_1_s01" model="training_ioc.session">
+            <field name="seminar_id" ref="seminar_odoo_b1_1"/>
+            <field name="session_num">1</field>
+            <field name="date_begin">2021-06-27</field>
+        </record>
+
+        <record id="session_odoo_b1_1_s02" model="training_ioc.session">
+            <field name="seminar_id" ref="seminar_odoo_b1_1"/>
+            <field name="session_num">2</field>
+            <field name="date_begin">2021-06-27</field>
+        </record>
+
+        <record id="session_odoo_b1_1_s03" model="training_ioc.session">
+            <field name="seminar_id" ref="seminar_odoo_b1_1"/>
+            <field name="session_num">3</field>
+            <field name="date_begin">2021-06-27</field>
+        </record>
+
+        <record id="session_odoo_b1_1_s04" model="training_ioc.session">
+            <field name="seminar_id" ref="seminar_odoo_b1_1"/>
+            <field name="session_num">4</field>
+            <field name="date_begin">2021-06-27</field>
+        </record>
+
+        <record id="seminar_odoo_b1_2" model="training_ioc.seminar">
+            <field name="course_id" ref="course_odoo_b1"/>
+            <field name="date_begin">2021-07-06</field>
+            <field name="date_end">2021-07-27</field>
+            <field name="hours_per_session">2</field>
+            <field name="trainer_id" ref="res_partner_address_210"/>
+            <field name="trained_employee"
+                   eval="[  (6,0,[  ref('tioc_employee_hne'),
+                                    ref('tioc_employee_lur'),
+                                    ref('tioc_employee_jgo'),
+                                    ref('tioc_employee_jog'),
+                                    ref('tioc_employee_niv'),
+                                    ref('tioc_employee_mit'),
+                                    ref('tioc_employee_ronnie_hart'),
+                                    ref('tioc_employee_qdp')])]"/>
+        </record>
+
+        <record id="seminar_toy_dev_i1_1" model="training_ioc.seminar">
+            <field name="course_id" ref="course_toy_dev_i1"/>
+            <field name="date_begin">2021-06-15</field>
+            <field name="date_end">2021-07-15</field>
+            <field name="hours_per_session">4</field>
+            <field name="trainer_id" ref="res_partner_address_213"/>
+            <field name="trained_employee"
+                   eval="[  (6,0,[  ref('tioc_employee_fme'),
+                                    ref('tioc_employee_qdp'),
+                                    ref('tioc_employee_chs'),
+                                    ref('tioc_employee_stw'),
+                                    ref('tioc_employee_niv'),
+                                    ref('tioc_employee_ngh')])]"/>
+        </record>
+        <record id="seminar_toy_dev_i1_2" model="training_ioc.seminar">
+            <field name="course_id" ref="course_toy_dev_i1"/>
+            <field name="date_begin">2021-07-15</field>
+            <field name="date_end">2021-08-15</field>
+            <field name="hours_per_session">4</field>
+            <field name="trainer_id" ref="res_partner_address_213"/>
+            <field name="trained_employee"
+                   eval="[  (6,0,[  ref('tioc_employee_jod'),
+                                    ref('tioc_employee_jep'),
+                                    ref('tioc_employee_jve'),
+                                    ref('tioc_employee_han')])]"/>
+        </record>
+
+        <record id="seminar_product_safety_a1_1" model="training_ioc.seminar">
+            <field name="course_id" ref="course_product_safety_a1"/>
+            <field name="date_begin">2021-07-10</field>
+            <field name="date_end">2021-08-10</field>
+            <field name="hours_per_session">3.5</field>
+            <field name="trainer_id" ref="res_partner_address_227"/>
+            <field name="trained_employee"
+                   eval="[  (6,0,[  ref('tioc_employee_vad'),
+                                    ref('tioc_employee_ngh'),
+                                    ref('tioc_employee_jth'),
+                                    ref('tioc_employee_fpi'),
+                                    ref('tioc_employee_jep')])]"/>
+        </record>
+
+    </data>
+</odoo>

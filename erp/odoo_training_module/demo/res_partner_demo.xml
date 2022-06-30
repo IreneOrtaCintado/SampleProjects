@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--
+        Resource: res.partner.category
+        -->
+        <record id="tioc_res_partner_category_0" model="res.partner.category">
+            <field name="name">Vendor</field>
+            <field name="color" eval="2"/>
+        </record>
+        <record id="tioc_res_partner_category_2" model="res.partner.category">
+            <field name="name">Prospects</field>
+            <field name="color" eval="3"/>
+        </record>
+        <record id="tioc_res_partner_category_3" model="res.partner.category">
+            <field name="name">Employees</field>
+            <field name="color" eval="4"/>
+        </record>
+        <record id="res_partner_category_8" model="res.partner.category">
+            <field name="name">Consulting Services</field>
+            <field name="color" eval="5"/>
+        </record>
+        <record id="tioc_res_partner_category_11" model="res.partner.category">
+            <field name="name">Services</field>
+            <field name="color" eval="7"/>
+        </record>
+        <record id="tioc_res_partner_category_12" model="res.partner.category">
+            <field name="name">Office Supplies</field>
+            <field name="parent_id" ref="tioc_res_partner_category_0"/>
+            <field name="color" eval="8"/>
+        </record>
+        <record id="tioc_res_partner_category_20" model="res.partner.category">
+            <field name="name">Professional Training</field>
+            <field name="color" eval="10"/>
+        </record>
+
+        <!--
+        Resource: training_ioc.expertise
+        -->
+        <!-- Expertise	-->
+
+        <record id="training_expertise_01" model="training_ioc.expertise">
+            <field name="name">Marketing</field>
+        </record>
+        <record id="training_expertise_02" model="training_ioc.expertise">
+            <field name="name">Design</field>
+        </record>
+        <record id="training_expertise_03" model="training_ioc.expertise">
+            <field name="name">Materials</field>
+        </record>
+        <record id="training_expertise_04" model="training_ioc.expertise">
+            <field name="name">Law</field>
+        </record>
+        <record id="training_expertise_05" model="training_ioc.expertise">
+            <field name="name">Product Development</field>
+        </record>
+        <record id="training_expertise_06" model="training_ioc.expertise">
+            <field name="name">Productivity</field>
+        </record>
+       <!--
+        Resource: res.partner
+        -->
+
+        <!-- IS COMPANY -->
+        <record id="tioc_res_partner_50" model="res.partner">
+            <field name="name">Wood Corner</field>
+            <field name="is_company">1</field>
+            <field name="street">1839 Arbor Way</field>
+            <field name="city">Turlock</field>
+            <field name="zip">95380</field>
+            <field name="email">wood.corner26@example.com</field>
+            <field name="phone">(623)-853-7197</field>
+            <field name="website">http://www.wood-corner.com</field>
+        </record>
+        <record id="tioc_res_partner_100" model="res.partner">
+            <field name="name">The Jackson Group</field>
+            <field name="is_company">1</field>
+            <field name="street">1611 Peony Dr</field>
+            <field name="city">Tracy</field>
+            <field name="zip">95377</field>
+            <field name="email">jackson.group82@example.com</field>
+            <field name="phone">(334)-502-1024</field>
+        </record>
+        <!-- Training Companies -->
+        <record id="tioc_res_partner_200" model="res.partner">
+            <field name="name">Azure Skills</field>
+            <field eval="[(6, 0, [ref('tioc_res_partner_category_20')])]" name="category_id"/>
+            <field name="is_company">1</field>
+            <field name="street">4557 De Silva St</field>
+            <field name="city">Fremont</field>
+            <field name="zip">94538</field>
+            <field name="phone">(870)-931-0505</field>
+            <field name="email">contact@azure.com</field>
+            <field name="website">http://www.azure-skills.com</field>
+        </record>
+        <record id="tioc_res_partner_300" model="res.partner">
+            <field name="name">Lumber Pro</field>
+            <field eval="[(6, 0, [ref('tioc_res_partner_category_20')])]" name="category_id"/>
+            <field name="is_company">1</field>
+            <field name="street">1337 N San Joaquin St</field>
+            <field name="city">Stockton</field>
+            <field name="zip">95202</field>
+            <field name="email">lumber-inv92@example.com</field>
+            <field name="phone">(828)-316-0593</field>
+            <field name="website">http://www.lumber-inc.com</field>
+        </record>
+
+        <!-- IS NOT COMPANY -->
+        <!-- not trainer -->
+        <record id="res_partner_address_221" model="res.partner">
+            <field name="name">Willie Burke</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_50')"/>
+            <field name="function">Service Manager</field>
+            <field name="email">willie.burke80@example.com</field>
+            <field name="phone">(846)-523-2111</field>
+        </record>
+        <record id="res_partner_address_222" model="res.partner">
+            <field name="name">Ron Gibson</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_50')"/>
+            <field name="function">Store Manager</field>
+            <field name="email">ron.gibson76@example.com</field>
+            <field name="phone">(976)-397-4091</field>
+        </record>
+        <record id="res_partner_address_223" model="res.partner">
+            <field name="name">Douglas Fletcher</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_100')"/>
+            <field name="function">Functional Consultant</field>
+            <field name="email">douglas.fletcher51@example.com</field>
+            <field name="phone">(132)-553-7242</field>
+        </record>
+        <record id="res_partner_address_224" model="res.partner">
+            <field name="name">Floyd Steward</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_100')"/>
+            <field name="function">Analyst</field>
+            <field name="email">floyd.steward34@example.com</field>
+            <field name="phone">(145)-138-3401</field>
+        </record>
+        <!-- Is trainer -->
+        <record id="res_partner_address_225" model="res.partner">
+            <field name="name">Edwin Hansen</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_300')"/>
+            <field name="function">Marketing Manager</field>
+            <field name="email">edwin.hansen58@example.com</field>
+            <field name="phone">(943)-352-2555</field>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_01"/>
+        </record>
+        <record id="res_partner_address_227" model="res.partner">
+            <field name="name">Billy Fox</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_200')"/>
+            <field name="function">Production Supervisor</field>
+            <field name="email">billy.fox45@example.com</field>
+            <field name="phone">(915)-498-5611</field>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_04"/>
+        </record>
+        <record id="res_partner_address_210" model="res.partner">
+            <field name="name">Jesse Brown</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_200')"/>
+            <field name="function">Senior Consultant</field>
+            <field name="email">jesse.brown74@example.com</field>
+            <field name="phone">(829)-386-3277</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_06"/>
+        </record>
+        <record id="res_partner_address_211" model="res.partner">
+            <field name="name">Soham Palmer</field>
+            <field name="parent_id" eval="ref('tioc_res_partner_300')"/>
+            <field name="function">Developer</field>
+            <field name="email">soham.palmer15@example.com</field>
+            <field name="phone">(379)-167-2040</field>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_05"/>
+        </record>
+
+        <record id="res_partner_address_213" model="res.partner">
+            <field name="name">Kim Snyder</field>
+            <field name="function">Designer</field>
+            <field name="email">kim.snyder96@example.com</field>
+            <field name="phone">(215)-379-4865</field>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_02"/>
+        </record>
+        <record id="res_partner_address_214" model="res.partner">
+            <field name="name">Edith Sanchez</field>
+            <field name="function">Analyst</field>
+            <field name="email">edith.sanchez68@example.com</field>
+            <field name="phone">(938)-175-2048</field>
+            <field name="is_trainer">True</field>
+            <field name="expertise" ref="training_expertise_01"/>
+        </record>
+
+    </data>
+</odoo>

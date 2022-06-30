@@ -1,0 +1,331 @@
+<odoo>
+    <data>
+
+        <!-- CLASS COURSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- LIST VIEW -->
+        <record model="ir.ui.view" id="training_ioc.course_list">
+            <field name="name">Course list</field>
+            <field name="model">training_ioc.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="level" widget="selection_badge"/>
+                    <field name="num_hours"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record model="ir.ui.view" id="training_ioc.course_form">
+            <field name="name">Course form</field>
+            <field name="model">training_ioc.course</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Course title"
+                                       modifiers="{'required':	true}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="level"/>
+                            </group>
+                            <group>
+                                <field name="num_hours"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <separator/>
+                        <h3>Seminars</h3>
+                        <field name="seminar_id"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACTION -->
+        <record model="ir.actions.act_window" id="training_ioc.course_action_window">
+            <field name="name">Course Catalog</field>
+            <field name="res_model">training_ioc.course</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- CLASS SEMINAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- SEMINAR LIST VIEW -->
+        <record model="ir.ui.view" id="training_ioc.seminar_list">
+            <field name="name">Session list</field>
+            <field name="model">training_ioc.seminar</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_begin"/>
+                    <field name="date_end"/>
+                    <field name="num_sessions"/>
+                    <field name="hours_per_session" widget="float_time"/>
+                    <field name="status"/>
+                    <field name="trainer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- SEMINAR FORM VIEW -->
+        <record model="ir.ui.view" id="training_ioc.seminar_form">
+            <field name="name">Seminar form</field>
+            <field name="model">training_ioc.seminar</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" class="oe_read_only"/>
+                                <field name="course_id" class="oe_edit_only" placeholder="Course title"/>
+                            </h1>
+                            <h3>
+                                <field name="trainer_id" placeholder="Trainer"/>
+                            </h3>
+                        </div>
+                        <group>
+                            <group string="Dates">
+                                <field name="status"/>
+
+                                <field name="date_begin"/>
+                                <field name="date_end"/>
+                            </group>
+                            <group string="Duration">
+                                <field name="num_hours"/>
+
+                                <field name="num_sessions"/>
+                                <field name="hours_per_session" widget="float_time"/>
+                            </group>
+                        </group>
+
+                        <separator/>
+
+                        <notebook>
+                            <page name="sessions" string="Sessions">
+                                <div>
+                                    <separator/>
+                                    <field name="session_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="session_num" string="Session Number"/>
+                                            <field name="date_begin"/>
+                                            <field name="time" widget="float_time"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </page>
+                            <page name="attendees" string="Attendees">
+                                <div>
+                                    <div>
+                                        <separator/>
+                                        <field name="trained_employee">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="department_id"/>
+                                                <field name="job_id"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- SEMINAR CALENDAR VIEW -->
+        <record model="ir.ui.view" id="training_ioc.seminar_calendar">
+            <field name="name">Seminar Calendar</field>
+            <field name="model">training_ioc.seminar</field>
+            <field name="arch" type="xml">
+                <calendar string="Seminar Calendar" date_start="date_begin" date_stop="date_end"
+                          color="course_id" mode="month">
+                    <field name="name"/>
+                    <field name="num_hours"/>
+                    <field name="trainer_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- SEMINAR SEARCH VIEW -->
+        <record model="ir.ui.view" id="training_ioc.seminar_search_view">
+            <field name="model">training_ioc.seminar</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="date_begin"/>
+                    <field name="course_id"/>
+                    <field name="num_hours"/>
+                    <field name="trainer_id"/>
+                    <group string="Group By">
+                        <filter name="group_by_date_begin" string="Date" context="{'group_by': 'date_begin'}"/>
+                        <filter name="group_by_course" string="Course" context="{'group_by': 'course_id'}"/>
+                        <filter name="group_by_trainer" string="Trainer" context="{'group_by': 'trainer_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- ACTION -->
+        <record model="ir.actions.act_window" id="training_ioc.seminar_action_window">
+            <field name="name">Seminars</field>
+            <field name="res_model">training_ioc.seminar</field>
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+
+
+        <!-- CLASS SESSION - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- LIST VIEW -->
+        <record model="ir.ui.view" id="training_ioc.session_list">
+            <field name="name">Session list</field>
+            <field name="model">training_ioc.session</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="session_num"/>
+                    <field name="date_begin"/>
+                    <field name="time" widget="float_time"/>
+                    <field name="seminar_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record model="ir.ui.view" id="training_ioc.session_form">
+            <field name="name">Session form</field>
+            <field name="model">training_ioc.session</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" class="oe_read_only"/>
+                                <field name="seminar_id" class="oe_edit_only" placeholder="Course name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_begin"/>
+                                <field name="time" widget="float_time"/>
+                            </group>
+                            <group>
+                                <field name="session_num" string="Session Number"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACTION -->
+        <record model="ir.actions.act_window" id="training_ioc.session_action_window">
+            <field name="name">Session Window</field>
+            <field name="res_model">training_ioc.session</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- CLASS PARTNER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- LIST VIEW extensión de la vista de res.partener en el archivo views/res.xml-->
+
+        <!-- FORM VIEW extensión de las vistas de res.partener en el archivo views/res.xml-->
+
+        <!-- ACTION -->
+
+        <record model="ir.actions.act_window" id="training_ioc.trainer_action_window">
+            <field name="name">Trainer Window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_trainer','=', True)]</field>
+        </record>
+
+
+        <!-- CLASS EXPERTISE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- EXPERTISE LIST VIEW -->
+        <record model="ir.ui.view" id="training_ioc.expertise_list">
+            <field name="name">Expertise list</field>
+            <field name="model">training_ioc.expertise</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record model="ir.ui.view" id="training_ioc.expertise_form">
+            <field name="name">Expertise form</field>
+            <field name="model">training_ioc.expertise</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Course title" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- EXPERTISE ACTION -->
+        <record model="ir.actions.act_window" id="training_ioc.expertise_action_window">
+            <field name="name">Expertise Window</field>
+            <field name="res_model">training_ioc.expertise</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="training_ioc.action_server">
+              <field name="name">training_ioc server</field>
+              <field name="model_id" ref="model_formacion_ioc_formacion_ioc"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+
+        <!--  MENU  -->
+        <!-- Top menu item -->
+
+        <menuitem name="Training" id="training_ioc.menu_root"
+                  groups="group_training_ioc_user,group_training_ioc_trainer,base.group_user"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Courses" id="training_ioc.menu_courses" parent="training_ioc.menu_root" sequence="1"
+                  groups="group_training_ioc_user,group_training_ioc_trainer,base.group_user"/>
+        <menuitem name="Trainers" id="training_ioc.menu_trainers" parent="training_ioc.menu_root" sequence="2"/>
+
+        <!-- actions -->
+
+        <menuitem name="Course Catalog" id="training_ioc.menu_course_catalog" parent="training_ioc.menu_courses"
+                  action="training_ioc.course_action_window" sequence="1"/>
+
+        <menuitem name="Seminars" id="training_ioc.menu_seminars_list" parent="training_ioc.menu_courses"
+                  action="training_ioc.seminar_action_window" sequence="2"/>
+
+        <menuitem name="Trainers" id="training_ioc.menu_trainers_list" parent="training_ioc.menu_trainers"
+                  action="training_ioc.trainer_action_window" sequence="1"/>
+
+        <menuitem name="Expertise" id="training_ioc.menu_expertise_list" parent="training_ioc.menu_trainers"
+                  action="training_ioc.expertise_action_window" sequence="2"/>
+
+    </data>
+</odoo>

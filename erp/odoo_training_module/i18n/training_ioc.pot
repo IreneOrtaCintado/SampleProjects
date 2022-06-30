@@ -1,0 +1,401 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* training_ioc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-08 20:24+0000\n"
+"PO-Revision-Date: 2021-05-08 20:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: training_ioc
+#: model:ir.model.fields.selection,name:training_ioc.selection__training_ioc_course__level__advanced
+msgid "Advanced"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+msgid "Attendees"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields.selection,name:training_ioc.selection__training_ioc_course__level__basic
+msgid "Basic"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_ceo
+msgid "Chief Executive Officer"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_cto
+msgid "Chief Technical Officer"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_consultant
+msgid "Consultant"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.res_partner_category_8
+msgid "Consulting Services"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model,name:training_ioc.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__course_id
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__name
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__name
+msgid "Course"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.course_action_window
+#: model:ir.ui.menu,name:training_ioc.menu_course_catalog
+msgid "Course Catalog"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.session_form
+msgid "Course name"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.course_form
+#: model_terms:ir.ui.view,arch_db:training_ioc.expertise_form
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+msgid "Course title"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model,name:training_ioc.model_training_ioc_course
+#: model:ir.ui.menu,name:training_ioc.menu_courses
+msgid "Courses"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__create_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__create_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__create_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__create_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__create_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__create_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__date_begin
+msgid "Date"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+msgid "Dates"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__description
+msgid "Description"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__display_name
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__display_name
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__display_name
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+msgid "Duration"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model,name:training_ioc.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.view_employee_list
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__trained_employee
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_3
+msgid "Employees"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__date_end
+msgid "End"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_developer
+msgid "Experienced Developer"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_res_partner__expertise
+#: model:ir.model.fields,field_description:training_ioc.field_res_users__expertise
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__name
+#: model:ir.ui.menu,name:training_ioc.menu_expertise_list
+msgid "Expertise"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.expertise_action_window
+msgid "Expertise Window"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__num_hours
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__num_hours
+msgid "Hours"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__hours_per_session
+msgid "Hours/Session"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_hrm
+msgid "Human Resources Manager"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__id
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__id
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__id
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__id
+msgid "ID"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields.selection,name:training_ioc.selection__training_ioc_course__level__intermediate
+msgid "Intermediate"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_res_partner__is_trainer
+#: model:ir.model.fields,field_description:training_ioc.field_res_users__is_trainer
+msgid "Is Trainer"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course____last_update
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise____last_update
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar____last_update
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__write_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__write_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__write_uid
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__write_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_expertise__write_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__write_date
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__level
+msgid "Level"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_marketing
+msgid "Marketing and Community Manager"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__name
+msgid "Name"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_12
+msgid "Office Supplies"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.groups,name:training_ioc.group_training_ioc_user
+msgid "Officer"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_20
+msgid "Professional Training"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_2
+msgid "Prospects"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_hr_employee__seminar_id
+#: model:ir.model.fields,field_description:training_ioc.field_res_partner__seminar_id
+#: model:ir.model.fields,field_description:training_ioc.field_res_users__seminar_id
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__seminar_id
+msgid "Seminar"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_calendar
+msgid "Seminar Calendar"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.seminar_action_window
+#: model:ir.model,name:training_ioc.model_training_ioc_seminar
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_course__seminar_id
+#: model:ir.ui.menu,name:training_ioc.menu_seminars_list
+#: model_terms:ir.ui.view,arch_db:training_ioc.course_form
+msgid "Seminars"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_11
+msgid "Services"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model,name:training_ioc.model_training_ioc_session
+msgid "Session"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__session_ids
+msgid "Session List"
+msgstr ""
+
+#. module: training_ioc
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+#: model_terms:ir.ui.view,arch_db:training_ioc.session_form
+msgid "Session Number"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.session_action_window
+msgid "Session Window"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__num_sessions
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__session_num
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+msgid "Sessions"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__date_begin
+msgid "Start"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__status
+msgid "Status"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.constraint,message:training_ioc.constraint_training_ioc_course_name_uniq
+#: model:ir.model.constraint,message:training_ioc.constraint_training_ioc_expertise_name_uniq
+msgid "Tag name already exists !"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.groups,comment:training_ioc.group_training_ioc_user
+msgid "The user can see courses and seminars"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.groups,comment:training_ioc.group_training_ioc_trainer
+msgid "The user can see courses, seminars and employees"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.groups,comment:training_ioc.group_training_ioc_manager
+msgid "The user will be able to manage the company training"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_session__time
+msgid "Time"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.module.category,description:training_ioc.category_training_ioc
+msgid "To manage professional training inside the company"
+msgstr ""
+
+#. module: training_ioc
+#: model:hr.job,name:training_ioc.tioc_job_trainee
+msgid "Trainee"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model.fields,field_description:training_ioc.field_training_ioc_seminar__trainer_id
+#: model_terms:ir.ui.view,arch_db:training_ioc.seminar_form
+#: model:res.groups,name:training_ioc.group_training_ioc_trainer
+msgid "Trainer"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.model,name:training_ioc.model_training_ioc_expertise
+msgid "Trainer Expertise"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.actions.act_window,name:training_ioc.trainer_action_window
+msgid "Trainer Window"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.ui.menu,name:training_ioc.menu_trainers
+#: model:ir.ui.menu,name:training_ioc.menu_trainers_list
+msgid "Trainers"
+msgstr ""
+
+#. module: training_ioc
+#: model:ir.module.category,name:training_ioc.category_training_ioc
+#: model:ir.ui.menu,name:training_ioc.menu_root
+#: model_terms:ir.ui.view,arch_db:training_ioc.view_employee_form
+msgid "Training"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.groups,name:training_ioc.group_training_ioc_manager
+msgid "Training Manager"
+msgstr ""
+
+#. module: training_ioc
+#: model:res.partner.category,name:training_ioc.tioc_res_partner_category_0
+msgid "Vendor"
+msgstr ""
