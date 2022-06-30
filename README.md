@@ -49,7 +49,7 @@
           </td>
      </tr>
 </table>
-<p>This is the final project of my software development course, done in collaboration with my college Marc Hernández Muñoz.<br></p>
+<p>This is the final project of my software development course, done in collaboration with my collegue Marc Hernández Muñoz.<br></p>
 
 
 <h2>ANDROID PROJECTS</h2>
