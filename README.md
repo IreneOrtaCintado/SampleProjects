@@ -8,7 +8,7 @@
 <table align="center">
      <tr>
           <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/1.%20Login.jpeg"
+               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/login_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
