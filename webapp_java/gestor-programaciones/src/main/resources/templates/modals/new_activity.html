@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Button llamada activity_modal -->
+<a th:fragment="btn_activity_modal" href="#newActivityModal" class="btn btn_primary_base mx-0 p-0"
+  data-bs-toggle="modal" role="button">
+  <img class="mx-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.activity}"></a>
+
+<!-- activity_modal -->
+<div th:fragment="activity_modal (title)" class="modal fade" id="newActivityModal" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-lg">
+    <div class="modal-content">
+      <div th:insert="modals/fragments_modal.html :: header_modal (#{add.activity.title})"></div>
+      <div class="modal-body">
+        <div class="container">
+          <!-- FORM -->
+          <form action="#" th:action="@{/programacion/activity/save}" th:object="${newAct}" method="post"
+            id="activityForm">
+            <!-- HIDDEN -->
+            <input type="hidden" th:field="*{id_act}" name="id_act_modal" id="id_act_modal">
+            <input type="hidden" th:field="*{uf.id_uf}" name="id_uf_act_modal" id="id_uf_act_modal">
+            <!-- TÍTULO -->
+            <h5 class="text-center mb-4" id="ufTitleActivityModal">UF</h5>
+            <!-- CODIGO -->
+            <div class="row mb-3">
+              <div class="form-group col row">
+                <label for="cod_act" class="col-4 col-form-label" th:text="#{cod.lable}"></label>
+                <input type="text" class="form-control col" th:field="*{cod_act}" id="cod_act_modal"
+                  name="cod_act_modal" required>
+              </div>
+              <!-- TIPO -->
+              <div class="form-group col row">
+                <label for="tipoActividad" class="col-2 col-form-label" th:text="#{type.lable}"></label>
+                <select class="form-control col" type="number" id="tipoActividad_modal"
+                  data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                  th:field="*{tipoActividad.id_tipo_act}" name="tipoActividad_modal" required>
+                  <option value="" disabled selected hidden>[[#{select.default.text}]]</option>
+                  <option th:each="unTipo : ${tiposActividades}" th:value="${unTipo.getId_tipo_act}"
+                    th:text="${unTipo.getNombre}">
+                  </option>
+                </select>
+              </div>
+
+            </div>
+            <!-- NOMBRE -->
+            <div class="form-group row mb-3">
+              <label for="nombre" class="col-2 col-form-label" th:text="#{name.lable}"></label>
+              <input type="text" class="form-control col" th:field="*{nombre}" id="nombre_act_modal"
+                name="nombre_act_modal" required>
+            </div>
+            <!-- INICIO -->
+            <div class="row mb-3">
+              <div class="form-group col row">
+                <label for="inicio_act" class="col-4 col-form-label" th:text="#{dateinit.lable}"></label>
+                <input type="date" class="form-control col" id="inicio_act_modal" th:field="*{inicio_act}"
+                  name="inicio_act_modal" required>
+              </div>
+              <div class="form-group col row">
+                <label for="fin_act" class="col-4 col-form-label" th:text="#{dateend.lable}"></label>
+                <input type="date" class="form-control col" id="fin_act_modal" th:field="*{fin_act}"
+                  name="fin_act_modal" required>
+                <div class="input-group-append">
+                </div>
+              </div>
+            </div>
+            <!-- FIN -->
+            <div class="row mb-3">
+              
+            </div>
+            <!-- DESCRIPCIÓN -->
+            <div class="form-group row mb-3">
+              <label for="act_description" class="col-sm-2 col-form-label" th:text="#{description.lable}"></label>
+              <div class="row mx-0">
+                <textarea class="form-control" type="text" rows="3" th:field="*{descripcion_act}" id="act_description_modal"
+                  name="act_description_modal"></textarea>
+              </div>
+            </div>
+            <!-- BOTÓN ACEPTAR -->
+            <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- BOTÓN ELIMINAR -->
+      <div class="modal-footer d-flex justify-content-center" id="newActModalFooter">
+        <!-- DELETE BUTTON -->
+        <div class="row d-flex justify-content-center">
+          <a href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button"
+            onclick="deleteActFromModal()">
+            <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

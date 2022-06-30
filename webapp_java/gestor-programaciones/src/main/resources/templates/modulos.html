@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/page.html :: html_base"></head>
+<body>
+    <!-- contenedor ajusta tamaño pantalla -->
+    <div class="container-fluid vh-100">
+        <!-- NAV -->
+        <div th:insert="fragments/page.html :: header_base_main"></div>
+        <!-- CONTENIDO -->
+        <div class="row justify-content-center">
+            <!-- PANEL LATERAL -->
+            <div class="col m-4 p-0" style="width:20em;">
+                <div class="row bg-light m-0 px-2 py-4" th:if="${!listaCentroAnyo.isEmpty()}">
+                    <!-- titulo -->
+                    <h4 class="text-center pb-3">Cursos</h4>
+                    <div>
+                        <!-- todos -->
+                        <div class="row m-2 bg-white">
+                            <a class="btn col d-flex" type="link" th:href="@{/modulos/(selectedFilter='-1')}"
+                                th:classappend="${currentFilter}=='-1'?'btn-primary2':'btn-white'">
+                                [[#{all.lable}]]
+                            </a>
+                        </div>
+                        <!-- listado años y centros -->
+                        <div class="row m-2 bg-white" th:each="filtroCursos : ${listaCentroAnyo}">
+                            <a class="btn col d-flex" type="link"
+                                th:href="@{/modulos/(selectedFilter=${filtroCursos.id_curso})}"
+                                th:classappend="${currentFilter}==${filtroCursos.id_curso}?'btn-primary2':'btn-white'">
+                                [[${filtroCursos.centro.nombre}]] - [[${filtroCursos.anyo}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- botón añadir curso -->
+                <div class="row mx-0 mt-3">
+                    <a href="#newCourseModal" class="btn btn-labeled btn-primary2 p-2 fs-5" data-bs-toggle="modal"
+                        role="button" onclick="resetCourseModal()">
+                        <img class="mx-2 align-middle" th:src="@{/icons/plus-circle-white.svg}" alt="agregar">
+                        [[#{add.module}]]
+                    </a>
+                </div>
+                <!-- MODALES -->
+                <span th:insert="modals/new_course.html :: course_modal (title=#{add.course.title})"></span>
+                <span th:insert="modals/new_center.html :: center_modal (title=#{add.center.title})"></span>
+                <span
+                    th:insert="modals/confirm_delete.html :: confirm_delete_modal"></span>
+            </div> <!-- FIN PANEL LATERAL -->
+
+            <!-- PANEL PRINCIPAL -->
+            <div class="col-10 my-4 mx-2 pe-4">
+                <!-- titulo -->
+                <div class="row align-items-center">
+                    <div class="col col-md-8 my-2">
+                        <h2>[[#{modules.title}]]</h2>
+                    </div>
+                </div>
+                <!-- listado de cursos filtrados -->
+                <h5 th:if="${listaCentroAnyo.isEmpty()}">[[#{no.data.to.show}]]</h5>
+                <div th:if="${!listaCentroAnyo.isEmpty()}">
+                    <!-- MODULO -->
+                    <div class="row bg-light mx-0 my-3 p-2 rounded align-items-center justify-content-between"
+                        th:each="unModulo : ${modulos}" style="filter: drop-shadow(0em 0.2em 0.2em rgba(0, 0, 0, 0.25))"
+                        th:data-course-id="${unModulo.id_curso}" th:data-course-anyo="${unModulo.anyo}"
+                        th:data-course-horas="${unModulo.horas_curso}"
+                        th:data-course-plan-asig="${unModulo.planAsignatura.id_planAsignatura}"
+                        th:data-course-centro="${unModulo.centro.id_centro}"
+                        th:data-course-docente="${unModulo.docente.id_docente}"
+                        th:data-course-ciclo="${unModulo.planAsignatura.planEstudio.id_planEstudio}"
+                        th:data-course-decret="${unModulo.planAsignatura.planEstudio.url_decret}">
+                        <!-- nombre -->
+                        <div class="col-2">
+                            <a> [[${unModulo.planAsignatura.planEstudio.cod_planEstudio}]]</a>
+                            <a> [[${unModulo.planAsignatura.cod_planAsignatura}]]</a>
+                        </div>
+                        <!-- botones -->
+                        <div class="col-10">
+                            <div class="row align-items-center">
+                                <div class="col m-2">
+                                    <div
+                                        th:insert="fragments/buttons.html :: btn_white_link (text=#{prog.button},url='/programacion/'+${unModulo.id_curso})">
+                                    </div>
+                                </div>
+                                <div class="col m-2">
+                                    <div
+                                        th:insert="fragments/buttons.html :: btn_white_link (text=#{eval.button},url='/evaluacion/'+${unModulo.id_curso})">
+                                    </div>
+                                </div>
+                                <div class="col m-2">
+                                    <div
+                                        th:insert="fragments/buttons.html :: btn_white_link (text=#{seg.button},url='/diario/'+${unModulo.id_curso})">
+                                    </div>
+                                </div>
+                                <div class="col m-2">
+                                    <div
+                                        th:insert="fragments/buttons.html :: btn_white_link (text=#{inf.button},url='/modulos')">
+                                    </div>
+                                </div>
+                                <div class=" col text-end d-flex flex-row-reverse">
+                                    <button role="button" type="button" class="btn" data-bs-toggle="modal"
+                                        data-bs-target="#newCourseModal" th:value="${unModulo.id_curso}"
+                                        onclick="modifyCourseModal(this)">
+                                        <img th:src="@{/icons/pencil.svg}" alt="editar">
+                                    </button>
+                                    <button role="button" type="button" class="btn btn-light" data-bs-toggle="modal"
+                                        data-bs-target="#confirmDelete" th:data-curso-id="${unModulo.id_curso}"
+                                        onclick="deleteCourseFromList(this)">
+                                        <img th:src="@{/icons/trash.svg}" alt="editar">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- FIN PANEL PRINCIPAL -->
+        </div> <!-- FIN CONTENIDO -->
+
+        <!-- FOOTER -->
+        <footer>
+            <div th:insert="fragments/page.html :: footer_base"></div>
+        </footer>
+    </div>
+
+    <!-- JS ---------------------------------------------------------------- -->
+    <!-- MODAL COURSE LOAD DATA -->
+    <script th:inline="javascript">
+        function modifyCourseModal(button) {
+            //  show footer
+            var footerNewCourseModal = document.getElementById('newCourseModalFooter')
+            footerNewCourseModal.style.display = 'inline'
+
+            //  obtener elemento form
+            var allDataElement = button.parentNode.parentNode.parentNode.parentNode
+            //  obtener datos
+            var course_id = allDataElement.getAttribute("data-course-id")
+            var course_anyo = allDataElement.getAttribute("data-course-anyo")
+            var course_horas = allDataElement.getAttribute("data-course-horas")
+            var course_planasig = allDataElement.getAttribute("data-course-plan-asig")
+            var course_centro = allDataElement.getAttribute("data-course-centro")
+            var course_docente = allDataElement.getAttribute("data-course-docente")
+            var course_ciclo = allDataElement.getAttribute("data-course-ciclo")
+            var course_decret = allDataElement.getAttribute("data-course-decret")
+            //  cargar datos del moduulo en el modal
+            loadCourseFormData(course_id, course_anyo, course_horas, course_planasig, course_centro, course_docente, course_ciclo, course_decret)
+        }
+
+        function loadCourseFormData(course_id, course_anyo, course_horas, course_planasig, course_centro, course_docente, course_ciclo, course_decret) {
+            var newCourseVar = document.getElementById('newCourseModal')
+            //  añadir datos al modal
+            newCourseVar.querySelector('#id_curso_modal').value = course_id
+            newCourseVar.querySelector('#anyo_modal').value = course_anyo
+            newCourseVar.querySelector('#centro_modal').value = course_centro
+            newCourseVar.querySelector('#selectedPlanEstudio_modal').value = course_ciclo
+            //  update dropdown modulos
+            filtrarModulos(course_ciclo)    // function in new_course.html
+            newCourseVar.querySelector('#selectedPlanAsignatura_modal').value = course_planasig
+            newCourseVar.querySelector('#horas_curso_modal').value = course_horas
+            newCourseVar.querySelector('#decret_modal').value = course_decret
+        }
+    </script>
+
+    <!-- RESET COURSE FORM -->
+    <script th:inline="javascript">
+        function resetCourseModal() {
+            document.getElementById('courseForm').reset()
+            // clear id curso
+            document.getElementById('id_curso_modal').value = null
+            // add year
+            const d = new Date();
+            var year = d.getFullYear();
+            if (d.getMonth() < 5) { year = year - 1; }
+            document.getElementById('anyo_modal').value = year + "/" + (year + 1);
+            // set dropdowns
+            document.getElementById('centro_modal').value = ""
+            document.getElementById('selectedPlanEstudio_modal').value = ""
+            document.getElementById('selectedPlanAsignatura_modal').value = ""
+            // clear hours
+            document.getElementById('horas_curso_modal').value = ''
+            // hide footer
+            var footerNewCourseModal = document.getElementById('newCourseModalFooter')
+            footerNewCourseModal.style.display = 'none'
+        }
+    </script>
+
+    <!-- DELETE COURSE -->
+    <script th:inline="javascript">
+        var courseIdToDelete
+        function deleteCourseFromList(button) {
+            //  find selected course id (from button attribute)
+            courseIdToDelete = button.getAttribute("data-curso-id")
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'modulos/curso/delete/' + courseIdToDelete)
+        }
+        function deleteCourseFromModal() {
+            //  find selected course id (from hidden input)
+            courseIdToDelete = document.getElementById('id_curso_modal').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'modulos/curso/delete/' + courseIdToDelete)
+        }
+    </script>
+
+    <!-- JS Bootstrap Bundle with Popper -->
+    <div th:insert="fragments/page.html ::script_bootstrap"></div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- CONFIRM DELETE -->
+<div th:fragment="confirm_delete_modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+  id="confirmDelete" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" style="color: white" th:text="#{confirm.delete.title}"></h5>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <h5 th:text="#{query.delete.lable}"></h5>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="submit" data-bs-dismiss="modal" th:text="#{cancel.lable}"></button>
+        <div class="d-grid gap-2">
+          <a class="btn btn-primary2" type="link" id="delete_button_confirmation" tabindex="0"
+            style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))"
+            th:href="@{/modulos}">[[#{delete.lable}]]</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

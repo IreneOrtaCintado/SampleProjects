@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- group_modal -->
+<div th:fragment="new_group_modal (title)">
+  <div class="modal fade" id="newGroupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+      <div class="modal-content">
+        <div th:insert="modals/fragments_modal.html :: header_modal (#{add.group.title})"></div>
+        <div class="modal-body">
+          <div class="container">
+            <!-- FORM -->
+            <form action="#" th:action="@{/evaluacion/grupo/save}" th:object="${newAlumnoGrupoCurso}" method="post" id="agcForm">
+              <!-- HIDDEN INPUTS -->
+              <input type="hidden" th:field="*{grupo.id_grupo}" name="modal_agc_group_id" id="modal_agc_group_id">
+              <input type="hidden" th:field="*{curso.id_curso}" name="modal_agc_course_id" id="modal_agc_course_id">
+              <!-- NOMBRE -->
+              <div class="form-group row mb-3">
+                <label for="modal_agc_group_name" class="col-3 col-form-label" th:text="#{name.lable}"></label>
+                <input type="text" class="form-control col" th:field="*{grupo.nombre}" id="modal_agc_group_name"
+                  name="nombre" required>
+              </div>
+              <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

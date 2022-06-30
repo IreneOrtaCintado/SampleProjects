@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Button llamada student_modal -->
+<a th:fragment="btn_student_modal" href="#" class="btn btn_primary_base" data-bs-toggle="modal" role="button">
+  <img class="me-2 align-middle" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.student}"></a>
+<!-- student_modal -->
+<div th:fragment="student_modal (title)">
+  <div class="modal fade" id="newStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+      <div class="modal-content">
+        <div th:insert="modals/fragments_modal.html :: header_modal (#{edit.student.title})"></div>
+        <div class="modal-body">
+          <div class="container">
+            <form action="#" th:action="@{/evaluacion/alumno/update}" th:object="${newAlumno}" method="post">
+              <input type="hidden" th:field="*{id_alumno}" name="id_alumno_modal" id="id_alumno_modal">
+              <div class="form-group row mb-3">
+                <label for="dni" class="col-sm-2 col-form-label" th:text="#{dni.lable}"></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="dni_modal" th:field="*{dni_alumno}" name="dni_modal">
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="alumno" class="col-sm-2 col-form-label" th:text="#{name.lable}"></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="nombre_modal" th:field="*{nombre}" name="nombre_modal">
+                </div>
+              </div>
+              <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="container-fluid">
+            <div th:insert="fragments/buttons :: btn_trash_base" class="row justify-content-center"
+              onclick="deleteAlumnoFromModal()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/page.html :: html_base"></head>
+
+<body>
+  <div class="container-fluid vh-100">
+    <div th:insert="fragments/page.html :: header_base_login"></div>
+    <div class="container-fluid">
+      <div class="row justify-content-md-center">
+        <div class="col col-md-6">
+          <div class="row" style="height:4em"></div>
+          <div class="row bg-white " style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))">
+            <div class="btn-group d-flex p-0" role="group" aria-label="tabs">
+              <a type="link" class="btn btn-secondary btn-block" th:text="#{teacher.lable}"
+                th:href="@{/(userType='docente')}"
+                th:classappend="${currentUserType}=='docente'?'btn-white':'btn-dark'"></a>
+              <a type="link" class="btn btn-secondary btn-block" th:text="#{student.lable}"
+                th:href="@{/(userType='alumno')}"
+                th:classappend="${currentUserType}=='alumno'?'btn-white':'btn-dark'"></a>
+            </div>
+
+            <!-- Docente -->
+            <form class="form-signin p-0" action="#" th:action="@{/app_login/perform_login}"
+              th:object="${login_docente}" method="POST" th:if="${currentUserType}=='docente'">
+              <div class="p-4">
+                <div class="p-3"></div>
+                <div class="form-group row mb-3">
+                  <label for="staticEmail" class="col-sm-2 col-form-label" th:text="#{user.lable}"></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" id="user_docente" name="user_docente"
+                      placeHolder="example@mail.com" th:field="*{user_docente}" th:required="required">
+                  </div>
+                </div>
+                <div class="form-group row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label" th:text="#{pass.lable}"></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="password" id="pass_docente" name="pass_docente"
+                      th:field="*{pass_docente}" th:required="required">
+                  </div>
+                </div>
+                <div class="p-3"></div>
+                <div th:insert="fragments/buttons.html :: btn_primary2_base (text=#{login.lable})"></div>
+              </div>
+            </form>
+
+            <!-- Alumno -->
+            <form class="p-0" action="#" th:action="@{/app_login/perform_login}" th:object="${login_alumno}"
+              method="POST" th:if="${currentUserType}=='alumno'">
+              <div class="p-4">
+                <div class="p-3"></div>
+                <div class="form-group row mb-3">
+                  <label for="staticEmail" class="col-sm-2 col-form-label" th:text="#{user.lable}"></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" id="user_alumno" name="user_alumno"
+                      placeHolder="example@mail.com" th:field="*{user_alumno}" th:required="required">
+                  </div>
+                </div>
+                <div class="form-group row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label" th:text="#{pass.lable}"></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="password" id="pass_alumno" name="pass_alumno"
+                      th:field="*{pass_alumno}" th:required="required">
+                  </div>
+                </div>
+                <div class="p-3"></div>
+                <div th:insert="fragments/buttons.html :: btn_primary2_base (text=#{login.lable})"></div>
+              </div>
+            </form>
+          </div>
+          <div th:insert="fragments/buttons.html :: btn_primary_link_floating (text=#{newUser.button},url='/new_user')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer>
+      <div th:insert="fragments/page.html :: footer_base"></div>
+    </footer>
+  </div>
+
+  <!-- JS Bootstrap Bundle with Popper -->
+  <div th:insert="fragments/page.html ::script_bootstrap"></div>
+
+
+</body>
+
+</html>

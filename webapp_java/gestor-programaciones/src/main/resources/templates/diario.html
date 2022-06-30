@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/page.html :: html_base"></head>
+
+<body>
+    <!-- contenedor ajusta tamaño pantalla -->
+    <div class="container-fluid vh-100">
+        <!-- NAV -->
+        <div th:insert="fragments/page.html :: header_base (navTitle=#{diario.nav.title}, backURL='modulos')"></div>
+        <!-- CONTENIDO -->
+        <div class="row justify-content-center">
+            <!-- PANEL LATERAL -->
+            <div th:if="${!grupos.isEmpty()}" class="col m-4 p-0" style="width:20em;">
+                <div class="row bg-light m-0 px-2 py-4">
+                    <h4 class="text-center pb-3">[[#{groups.lable}]]</h4>
+                    <!-- selección de grupo -->
+                    <div th:if="${!grupos.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="grupoAula : ${grupos}" id="eachGroup">
+                            <a class="btn col d-flex text-start" type="link"
+                                th:href="@{/diario/(selected_group=${grupoAula.id_grupo})}"
+                                th:classappend="${currentGroupId}==${grupoAula.id_grupo}?'btn-primary2':'btn-white'">
+                                [[${grupoAula.nombre}]]
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="row mx-0 mt-3">
+                    <a href="#modalEventForm" class="btn btn-labeled btn-primary2 p-2 fs-5" data-bs-toggle="modal"
+                        role="button" onclick="newEvent()">
+                        <img class="mx-2 align-middle" th:src="@{/icons/plus-circle-white.svg}" alt="agregar">
+                        [[#{add.event}]] </a>
+                </div>
+            </div> <!-- FIN PANEL LATERAL -->
+
+            <!-- PANEL PRINCIPAL -->
+            <div class="col-10 my-4 mx-2 pe-4">
+                <div class="row" th:if="${!grupos.isEmpty()}">
+                    <h3 class="col">[[${codigoEstudios}]] [[${codigoModulo}]] ([[${anyoModulo}]]) -
+                        [[${currentGroup.nombre}]]</h3>
+                </div>
+                <h3 th:if="${grupos.isEmpty()}">[[${codigoEstudios}]] [[${codigoModulo}]] ([[${anyoModulo}]]) -
+                    [[#{groups.no.group.available}]]</h3>
+                <div>
+                    <!-- TABLA -->
+                    <table class="table table-borderless" style="border-collapse: separate; border-spacing:0 0.65em;">
+                        <thead>
+                            <colgroup span="2"></colgroup>
+                            <colgroup span="2"></colgroup>
+                            <tr>
+                                <th colspan="2" scope="colgroup"></th>
+                                <th class="bg-light text-center" colspan="2" scope="colgroup"
+                                    th:text="#{diario.horas.lable}"></th>
+                            </tr>
+                            <tr>
+                                <th style="min-width: 5em; width:5em;"></th>
+                                <th style="min-width: 7em; width: 7em;"></th>
+                                <th class="bg-light text-center" style="min-width: 7em; width: 7em;"
+                                    th:text="#{diario.planeadas.lable}"></th>
+                                <th class="bg-light text-center" style="min-width: 7em; width: 7em;"
+                                    th:text="#{diario.reales.lable}"></th>
+                                <th style="min-width: 15em;"></th>
+                                <th style="min-width: 4em; width:4em;"></th>
+                                <th style="min-width: 4em; width:4em;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ROW DATA -->
+                            <tr class="bg-white align-middle" th:each="eventoRow : ${eventos}" id="eachEvent"
+                                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));"
+                                th:data-evento-id="${eventoRow.id_evento}"
+                                th:data-evento-tipo-id="${eventoRow.tipoEvento.id_tipoEvento}"
+                                th:data-evento-fecha="${eventoRow.fecha}" th:data-evento-hprev="${eventoRow.horasPrev}"
+                                th:data-evento-hreales="${eventoRow.horasReal}"
+                                th:data-evento-desc="${eventoRow.comenta}">
+
+                                <td th:text="${eventoRow.tipoEvento.nombre}"><a data-bs-toggle="modal"
+                                        data-bs-target="#modalEventForm" th:value="${eventoRow.id_evento}"></a></td>
+                                <td th:text="${eventoRow.fecha}"></td>
+                                <td class="text-center" th:text="${eventoRow.horasPrev}"></td>
+                                <td>
+                                    <input type="number" step="0.25" class="form-control text-center"
+                                        th:value="${eventoRow.horasReal}" style="width:5em"
+                                        id="horasRealesEventoInputField" min="0" max="99"
+                                        onchange="updateHorasReales(this)">
+                                </td>
+                                <td th:text="${eventoRow.comenta}"></td>
+                                <td>
+                                    <button role="button" type="button" class="btn btn-white" data-bs-toggle="modal"
+                                        data-bs-target="#modalEventForm" th:data-evento-id="${eventoRow.id_evento}"
+                                        onclick="editEvent(this)">
+                                        <img th:src="@{/icons/pencil.svg}" alt="editar">
+                                    </button>
+                                </td>
+                                <td>
+                                    <button role="button" type="button" class="btn btn-white" data-bs-toggle="modal"
+                                        data-bs-target="#confirmDelete" th:data-evento-id="${eventoRow.id_evento}"
+                                        onclick="deleteEventFromTable(this)">
+                                        <img th:src="@{/icons/trash.svg}" alt="editar">
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- ROW EMPTY -->
+                            <tr th:if="${eventos.isEmpty()}" class="bg-white align-middle"
+                                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                <td class="text-center" colspan="6">[[#{no.data.to.show}]]</td>
+                            </tr>
+                        </tbody>
+                        <!-- <tfoot> -->
+                        <!-- <tr> -->
+                        <!-- <td class="ps-0" colspan="2"> -->
+                        <!-- Add Evento -->
+                        <!-- <div th:insert="modals/new_event.html :: btn_event_modal" class="bg-white m-0"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));"
+                                        onclick="newEvent()" th:if="${!grupos.isEmpty()}"></div> -->
+                        <!-- </td>
+                                <td class="bg-light"></td>
+                                <td class="bg-light"></td> -->
+
+                        <!-- </tr> -->
+                        <!-- </tfoot> -->
+                        <!-- MODAL EVENTOS -->
+                        <div th:insert="modals/new_event.html :: event_modal (#{add.event.title})"></div>
+                        <!-- MODAL CONFIRMAR ELIMINAR EVENTO -->
+                        <span th:insert="modals/confirm_delete.html :: confirm_delete_modal">
+                        </span>
+                    </table>
+                </div>
+            </div> <!-- FIN PANEL PRINCIPAL -->
+        </div> <!-- FIN CONTENIDO -->
+
+        <!-- FOOTER -->
+        <footer>
+            <div th:insert="fragments/page.html :: footer_base"></div>
+        </footer>
+    </div>
+
+    <!-- JS ---------------------------------------------------------------- -->
+    <!-- MODAL EVENT SCRIPT -->
+    <script th:inline="javascript">
+        function editEvent(button) {
+            //  show footer
+            var footerNewEventModal = document.getElementById('newEventModalFooter')
+            footerNewEventModal.style.display = 'inline'
+            // action: save
+            document.getElementById('eventForm').action = '/diario/evento/save'
+            //  Find parent with data
+            var allDataElement = button.parentNode.parentNode
+            // Get values
+            var event_id = allDataElement.getAttribute("data-evento-id")
+            var event_type = allDataElement.getAttribute("data-evento-tipo-id")
+            var event_date = allDataElement.getAttribute("data-evento-fecha")
+            var event_plan_h = allDataElement.getAttribute("data-evento-hprev")
+            var event_description = allDataElement.getAttribute("data-evento-desc")
+            var inputHorasReales = allDataElement.querySelector("#horasRealesEventoInputField")
+            var event_real_h = inputHorasReales.value
+            // Update the modal's content.
+            loadEventFormData(event_id, event_type, event_date, event_plan_h, event_real_h, event_description)
+        }
+    </script>
+
+    <!-- LOAD EVENT FORM DATA -->
+    <script th:inline="javascript">
+        var newEventModalVar = document.getElementById('modalEventForm')
+        function loadEventFormData(id, idTipo, fecha, horasPlan, horasReal, desc) {
+            newEventModalVar.querySelector('#modal_evento_id').value = id
+            newEventModalVar.querySelector('#modal_tipo_evento').value = idTipo
+            newEventModalVar.querySelector('#modal_fecha').value = fecha
+            newEventModalVar.querySelector('#modal_horas_prev').value = horasPlan
+            newEventModalVar.querySelector('#modal_horas_real').value = horasReal
+            newEventModalVar.querySelector('#modal_event_description').value = desc
+        }
+    </script>
+
+    <!-- NEW EVENT FORM -->
+    <script th:inline="javascript">
+        function newEvent() {
+            // clear form
+            document.getElementById('eventForm').reset()
+            // action: save
+            document.getElementById('eventForm').action = '/diario/evento/save'
+            // set up dropdown to default message
+            //document.getElementById('modal_tipo_evento').value = ''
+            // hide footer
+            var footerNewEventModal = document.getElementById('newEventModalFooter')
+            footerNewEventModal.style.display = 'none'
+        }
+    </script>
+
+    <!-- DELETE EVENT -->
+    <script th:inline="javascript">
+        var eventIdToDelete
+        function deleteEventFromTable(button) {
+            //  find selected event id (from button attribute)
+            eventIdToDelete = button.getAttribute("data-evento-id")
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'diario/evento/delete/' + eventIdToDelete)
+        }
+
+        function deleteEventFromModal() {
+            //  find selected event id (from hidden input)
+            eventIdToDelete = document.getElementById('modal_evento_id').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'diario/evento/delete/' + eventIdToDelete)
+        }
+    </script>
+
+    <!-- FIELD HORAS REALES -->
+    <script th:inline="javascript">
+        function updateHorasReales(element) {
+            var allDataElement = element.parentNode.parentNode
+            var event_id = allDataElement.getAttribute("data-evento-id")
+            var event_type = allDataElement.getAttribute("data-evento-tipo-id")
+            var event_date = allDataElement.getAttribute("data-evento-fecha")
+            var event_plan_h = allDataElement.getAttribute("data-evento-hprev")
+            var event_description = allDataElement.getAttribute("data-evento-desc")
+            var event_real_h = allDataElement.querySelector("#horasRealesEventoInputField").value
+            if (event_real_h < 0) {
+                event_real_h = 0;
+            } else if (event_real_h > 99) {
+                event_real_h = 99;
+            }
+            //  fill form
+            loadEventFormData(event_id, event_type, event_date, event_plan_h, event_real_h, event_description)
+            // post form auto
+            document.getElementById('eventForm').submit()
+        } 
+    </script>
+
+    <!-- MODAL EDIT GROUP -->
+    <script th:inline="javascript">
+        var newGroupModalVar = document.getElementById('newGroupModal')
+        function editGroup(button) {
+            // action: save
+            document.getElementById('groupForm').action = '/diario/grupo/save'
+            //  get data
+            var group_id = button.getAttribute('data-group-id')
+            var group_name = button.getAttribute('data-group-name')
+            //  update the modal's content
+            var modalIdGrupoInput = newGroupModalVar.querySelector('#modal_group_id')
+            modalIdGrupoInput.value = group_id
+            var modalNameInput = newGroupModalVar.querySelector('#modal_group_name')
+            modalNameInput.value = group_name
+        }
+    </script>
+
+    <!-- DELETE GROUP -->
+    <script th:inline="javascript">
+        function deleteGroupFromModal() {
+            //  find selected event id (from hidden input)
+            groupIdToDelete = document.getElementById('modal_group_id').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'diario/grupo/delete/' + groupIdToDelete)
+        }
+    </script>
+
+    <!-- JS Bootstrap Bundle with Popper -->
+    <div th:insert="fragments/page.html ::script_bootstrap"></div>
+</body>
+
+</html>

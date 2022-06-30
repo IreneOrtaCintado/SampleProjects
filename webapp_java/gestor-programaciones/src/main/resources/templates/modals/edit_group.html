@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Button llamada group_modal -->
+<a th:fragment="btn_group_modal" href="#editGroupModal" class="btn btn_primary_base" data-bs-toggle="modal"
+  role="button">
+  <img class="mx-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.group}"></a>
+
+<!-- group_modal -->
+<div th:fragment="edit_group_modal (title)">
+  <div class="modal fade" id="editGroupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+      <div class="modal-content">
+
+        <div th:insert="modals/fragments_modal.html :: header_modal (#{edit.group.title})"></div>
+
+        <div class="modal-body">
+          <div class="container">
+
+            <!-- FORM -->
+            <form action="#" th:action="@{/evaluacion/grupo/edit}" th:object="${newGrupo}" method="post" id="groupForm">
+              <!-- HIDDEN INPUTS -->
+              <input type="hidden" th:field="*{id_grupo}" name="modal_group_id" id="modal_group_id">
+
+              <!-- NOMBRE -->
+              <div class="form-group row mb-3">
+                <label for="eGroup" class="col-3 col-form-label" th:text="#{name.lable}"></label>
+                <input type="text" class="form-control col" th:field="*{nombre}" id="modal_group_name" name="nombre" required>
+              </div>
+              <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+            </form>
+
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-center" id="editGroupModalFooter">
+          <a href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button"
+            onclick="deleteGroupFromModal()">
+            <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/page.html :: html_base"></head>
+
+<body>
+<div th:insert="fragments/page.html :: header_base(navTitle=#{newuser.nav.title}, backURL='app_login')"></div>
+
+
+<!-- TODO INCLUIR CONTENIDO -->
+
+
+<footer>
+    <div th:insert="fragments/page.html :: footer_base"></div>
+</footer>
+
+<!-- JS Bootstrap Bundle with Popper -->
+<div th:insert="fragments/page.html ::script_bootstrap"></div>
+
+</body>
+</html>

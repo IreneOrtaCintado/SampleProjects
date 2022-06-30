@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+  <!-- Button llamada Template_modal -->
+  <div th:fragment="btn_template_modal">
+    <a href="#newModal" class="btn btn_primary_base" data-bs-toggle="modal" role="button">
+      <img th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.template}"></a>
+  </div>
+
+  <!-- Header ventana modal -->
+    <div th:fragment="header_modal (title)" class="modal-header bg-primary">
+      <h5 class="modal-title" style="color: white">[[${title}]]</h5>
+      <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+
+  <!-- Accept Trash Buttons -->
+  <div th:fragment="modal_btns_accept_trash (text)">
+    <div class="d-grid gap-2">
+      <div th:insert="fragments/buttons.html :: btn_primary2_base (${text})"></div>
+      <div th:insert="fragments/buttons.html :: btn_trash_base"></div>
+    </div>    
+  </div>
+
+  <!-- Template_modal -->
+  <div th:fragment="template_modal (title)">
+    <div class="modal fade" id="newModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="modalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+          
+          <div th:insert="modals/fragments_modal :: header_modal (${title})"></div>
+
+          <div class="modal-body">
+            <div class="container">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi corporis atque recusandae fugiat,
+                doloremque ipsam odio impedit dolorum similique consectetur incidunt.
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="container-fluid" th:insert="fragments/buttons :: btn_trash_base"></div>      
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

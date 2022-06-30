@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/page.html :: html_base"></head>
+
+<body>
+    <!-- contenedor ajusta tamaño pantalla -->
+    <div class="container-fluid vh-100">
+        <!-- NAV -->
+        <div th:insert="fragments/page.html :: header_base (navTitle=#{programacion.nav.title}, backURL='modulos')">
+        </div>
+        <!-- CONTENIDO -->
+        <div class="row justify-content-center">
+            <!-- PANEL LATERAL -->
+            <div class="col m-4 p-0" style="width:20em;">
+                <div class="row m-0 px-2 py-4 bg-light">
+                    <!-- titulo -->
+                    <h4 class="text-center pb-3">[[${currentCourse.centro.nombre}]] -
+                        [[${currentCourse.anyo}]]</h4>
+                    <!-- listado -->
+                    <div th:if="${!cursos.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="elCurso : ${cursos}">
+                            <a class="btn col d-flex" type="link"
+                                th:href="@{/programacion/(selectedCourse=${elCurso.id_curso})}"
+                                th:classappend="${currentCourse.id_curso}==${elCurso.id_curso}?'btn-primary2':'btn-white'">
+                                [[${elCurso.planAsignatura.planEstudio.cod_planEstudio}]] -
+                                [[${elCurso.planAsignatura.cod_planAsignatura}]]
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="row mx-0 mt-3">
+                    <a href="#newUfModal" class="btn btn-labeled btn-primary2 p-2 fs-5" data-bs-toggle="modal"
+                        role="button" onclick="resetUfModal()">
+                        <img class="mx-2 align-middle" th:src="@{/icons/plus-circle-white.svg}" alt="agregar">
+                        [[#{add.uf}]]
+                    </a>
+                </div>
+            </div><!-- FIN PANEL LATERAL -->
+
+            <!-- PANEL PRINCIPAL -->
+            <div class="col col-10 my-4 mx-2 pe-4">
+                <h5 th:if="${currentCourse == null}">[[#{no.data.to.show}]]</h5>
+                <div th:if="${currentCourse != null}">
+                    <!-- titulo -->
+                    <div class="row align-items-center">
+                        <div class="col my-2 d-flex justify-content-between">
+                            <!-- descriptcion -->
+                            <h4>[[${currentCourse.planAsignatura.planEstudio.cod_planEstudio}]] -
+                                [[${currentCourse.planAsignatura.cod_planAsignatura}]] -
+                                [[${currentCourse.planAsignatura.nombre}]] -
+                                [[${currentCourse.horas_curso}]] Hrs
+                            </h4>
+
+                            <a th:href="${currentCourse.planAsignatura.planEstudio.url_decret}"
+                                class="link-danger fw-light fs-6" target="_blank">ver Decret</a>
+
+                        </div>
+                    </div>
+
+                    <!-- DATOS CURSO -->
+                    <div class="row m-0 p-0 align-items-center justify-content-between" id="div_datos_curso"
+                        th:data-course-id="${currentCourse.id_curso}" th:data-course-anyo="${currentCourse.anyo}"
+                        th:data-course-horas="${currentCourse.horas_curso}"
+                        th:data-course-planasig="${currentCourse.planAsignatura.id_planAsignatura}"
+                        th:data-course-centro="${currentCourse.centro.id_centro}"
+                        th:data-course-docente="${currentCourse.docente.id_docente}"
+                        th:data-course-ciclo="${currentCourse.planAsignatura.planEstudio.id_planEstudio}"
+                        th:data-course-decret="${currentCourse.planAsignatura.planEstudio.url_decret}">
+
+                        <!-- ACCORDION -->
+                        <div class="accordion m-0 p-0" id="accordionUfs">
+                            <div th:if="${!ufs.isEmpty()}">
+                                <!-- DATOS UF -->
+                                <div th:each="aUf : ${ufs}" th:data-uf-id="${aUf.id_uf}"
+                                    th:data-uf-horas="${aUf.horas_uf}" th:data-uf-planuf="${aUf.planUf.id_planUf}"
+                                    th:data-uf-coduf="${aUf.planUf.cod_planUf}" th:data-uf-nombre="${aUf.planUf.nombre}"
+                                    th:data-uf-inicio="${aUf.inicio_uf}" th:data-uf-fin="${aUf.fin_uf}"
+                                    th:data-uf-curso="${aUf.curso.id_curso}"
+                                    class="mx-0 my-3 p-0 rounded align-items-center justify-content-between"
+                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))">
+
+                                    <!-- ACCORDION ITEM -->
+                                    <div class="accordion-item">
+                                        <!-- accordion header -->
+                                        <div class="accordion-header" th:id="heading+${aUf.id_uf}">
+                                            <!-- accordion button -->
+                                            <button class="accordion-button bg-light"
+                                                th:classappend="${currentUf}==${aUf.id_uf}?' ':'collapsed'"
+                                                data-bs-toggle="collapse"
+                                                th:attr="data-bs-target=|#collapse${aUf.id_uf}" aria-expanded="true"
+                                                aria-controls="collapse">
+                                                <!-- nombre -->
+                                                <h5 class="col">
+                                                    [[${aUf.planUf.cod_planUf}]] - [[${aUf.planUf.nombre}]]
+                                                </h5>
+                                                <!-- horas -->
+                                                <h5 class="col col-1 text-right">[[${aUf.horas_uf}]] hrs</h5>
+                                            </button>
+                                        </div>
+                                        <div th:id="collapse+${aUf.id_uf}"
+                                            th:attr="aria-labelledby=|heading${aUf.id_uf}"
+                                            data-bs-parent="#accordionUfs"
+                                            th:classappend="${currentUf}==${aUf.id_uf}?'collapse show':'collapse'">
+                                            <!-- accordion body -->
+                                            <div class="accordion-body bg-light m-0 p-3 align-items-center">
+
+                                                <!-- CABECERA -->
+                                                <div class="d-flex bg-dark text-white mx-0 my-2 px-3 py-1 justify-content-between align-items-center"
+                                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));"
+                                                    th:with="porcent = ${aUf.horas_uf}/${#aggregates.sum(ufs.![horas_uf])}">
+                                                    <!-- fecha inicio -->
+                                                    <h5
+                                                        th:text="#{program.init.lable}+': '+${#calendars.format(aUf.inicio_uf, 'dd-MMM-YY')}">
+                                                    </h5>
+                                                    <!-- fecha fin -->
+                                                    <h5
+                                                        th:text="#{program.end.lable}+': '+${#calendars.format(aUf.fin_uf, 'dd-MMM-YY')}">
+                                                    </h5>
+                                                    <!-- porcentaje -->
+                                                    <h5 th:text="${#numbers.formatPercent((__${porcent}__), 1, 2)}">
+                                                    </h5>
+                                                </div>
+
+                                                <!-- tablas -->
+                                                <div class="row m-0 p-0">
+                                                    <!-- PANEL ACTIVIDADES -->
+                                                    <div class="col-3 p-2 m-2 ms-0 align-self-left bg-white"
+                                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25)); min-width: 12em;">
+                                                        <!-- header actividades -->
+                                                        <div class="row m-0 mb-3 px-2 p-2"
+                                                            style="overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">
+                                                            <h6 class="col p-0 m-0">
+                                                                [[#{program.act.lable}]]</h6>
+                                                            <h6 class="col-2 p-0 m-0 justify-content-end">
+                                                                [[#{program.rubrica.lable}]]</h6>
+                                                        </div>
+                                                        <!-- FOR EACH ACTIVIDADES - DATOS -->
+                                                        <div class="row px-2 pt-2 m-0 pb-1 mb-2"
+                                                            th:if="${actividad.uf.id_uf==aUf.id_uf}"
+                                                            th:each="actividad : ${actividadesCurso}"
+                                                            th:data-id-act="${actividad.id_act}"
+                                                            th:data-nombre-act="${actividad.nombre}"
+                                                            th:data-cod-act="${actividad.cod_act}"
+                                                            th:data-inicio-act="${actividad.inicio_act}"
+                                                            th:data-fin-act="${actividad.fin_act}"
+                                                            th:data-descripcion-act="${actividad.descripcion_act}"
+                                                            th:data-id-tipo-act="${actividad.tipoActividad.id_tipo_act}"
+                                                            th:data-id-uf="${actividad.uf.id_uf}"
+                                                            th:data-nombre-uf="${actividad.uf.planUf.nombre}"
+                                                            th:data-cod-uf="${actividad.uf.planUf.cod_planUf}">
+                                                            <!-- LINK EDITAR ACTIVIDADES -->
+                                                            <a class="col p-0 m-0 link-primary text-decoration-none"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#newActivityModal"
+                                                                style="overflow:hidden; white-space:nowrap; text-overflow: ellipsis;"
+                                                                href="#" onclick="editActividad(this)">
+                                                                [[${actividad.nombre}]]
+                                                            </a>
+                                                            <!-- fecha inicio actividad -->
+                                                            <div class="col-3 p-0 m-0"
+                                                                style="text-align:right; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; min-width: 3em;"
+                                                                th:text="${#calendars.format(actividad.inicio_act, 'dd-MM')}">
+                                                            </div>
+                                                            <!-- fecha fin actividad -->
+                                                            <div class="col-3 p-0 m-0"
+                                                                style="text-align:right; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; min-width: 3em;"
+                                                                th:text="${#calendars.format(actividad.fin_act, 'dd-MM')}">
+                                                            </div>
+                                                            <!-- BOTÓN NUEVA RUBRICA -->
+                                                            <div class="col-1 p-0 m-0"
+                                                                th:data-id-act="${actividad.id_act}">
+                                                                <a th:fragment="btn_rubrica_modal"
+                                                                    href="#newRubricaModal"
+                                                                    class="btn btn_primary_base mx-0 p-0"
+                                                                    data-bs-toggle="modal" role="button"
+                                                                    onclick="openRubricaModal(this)">
+                                                                    <img class="mx-2 align-bottom"
+                                                                        th:src="@{/icons/edit_data.svg}" alt="agregar">
+                                                                </a>
+                                                                <div class="apartadosActProgramacion"
+                                                                    th:each="apartadoAct : ${apartadosCurso}"
+                                                                    th:if="${apartadoAct.actividad.id_act == actividad.id_act}"
+                                                                    th:data-id-apartado="${apartadoAct.id_apdo}"
+                                                                    th:data-id-act-apartado="${apartadoAct.actividad.id_act}"
+                                                                    th:data-descripcion-apartado="${apartadoAct.descripcion}"
+                                                                    th:data-id-ra-apartado="${apartadoAct.ra.id_ra}"
+                                                                    th:data-peso-apartado="${apartadoAct.peso_apdo_act_ra}"
+                                                                    hidden></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row"><br></div>
+                                                        <!-- BOTÓN NUEVA ACTIVIDAD -->
+                                                        <a th:fragment="btn_activity_modal" href="#newActivityModal"
+                                                            class="btn btn_primary_base mx-0 p-0" data-bs-toggle="modal"
+                                                            role="button" onclick="resetActModal(this)"
+                                                            th:data-id-uf-act="${aUf.id_uf}">
+                                                            <img class="mx-2 align-bottom"
+                                                                th:src="@{/icons/plus-circle.svg}" alt="agregar"
+                                                                th:text="#{add.activity}">
+                                                        </a>
+                                                    </div>
+
+                                                    <!-- COLUMN RA SCROLL -->
+                                                    <div class="col d-flex align-items-start m-0 p-0"
+                                                        style="overflow-x:scroll">
+                                                        <!-- RA -->
+                                                        <div class="col m-2 me-0" th:each="ra : ${rasCurso}"
+                                                            th:if="${ra.uf.id_uf == aUf.id_uf}"
+                                                            style="min-width: 15em;">
+                                                            <!-- header RAs -->
+                                                            <div class="row bg-white m-0 mb-2 p-2"
+                                                                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                                                <div class="col text-primary"
+                                                                    style="text-align: center; max-width: 5em;">
+                                                                    <h6>[[${ra.planRa.cod_planRa}]]
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="col" style="text-align: right">
+                                                                    <h6>[[${ra.planRa.porcent_uf}]] %
+                                                                        de la UF</h6>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- body RAs -->
+                                                            <div class="row p-0 m-0 bg-white"
+                                                                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                                                <!-- porcentaje actividades -->
+                                                                <div class="col-3 p-2 m-0"
+                                                                    th:with="idRa = ${ra.getId_ra()}"
+                                                                    style="min-width:6em;">
+                                                                    <div class="m-0 p-0"
+                                                                        th:if="${actividad.uf.id_uf==aUf.id_uf}"
+                                                                        th:each="actividad : ${actividadesCurso}">
+                                                                        <div class="divInputPorcentajePesoAct m-0 p-0">
+                                                                            <!-- input with data -->
+                                                                            <div class="input-group m-0 my-2 p-0"
+                                                                                th:each=" peso : ${pesoActRaCurso}"
+                                                                                th:if="${peso.ra.id_ra == ra.id_ra and peso.actividad.id_act == actividad.id_act}"
+                                                                                style="text-align: center; min-width:6em; display: flex;">
+                                                                                <input type="number" step="5"
+                                                                                    class="form-control form-control-sm text-end"
+                                                                                    th:value="${peso.porcent_pesoActRa}"
+                                                                                    id="inputPeso" min="0" max="100"
+                                                                                    onchange="updatePeso(this)"
+                                                                                    th:data-peso-id-act="${actividad.id_act}"
+                                                                                    th:data-peso-id-ra="${ra.id_ra}">
+                                                                                <span class="input-group-text"
+                                                                                    id="basic-addon1">%</span>
+                                                                            </div>
+                                                                            <!-- input no data -->
+                                                                            <div class="input-group m-0 my-2 p-0 text-center"
+                                                                                style="text-align: center; min-width:6em; display: none;">
+                                                                                <input type="number" step="5"
+                                                                                    class="form-control form-control-sm"
+                                                                                    id="inputNotPeso" min="0" max="100"
+                                                                                    onchange="updatePeso(this)"
+                                                                                    th:data-peso-id-act="${actividad.id_act}"
+                                                                                    th:data-peso-id-ra="${ra.id_ra}">
+                                                                                <span class="input-group-text"
+                                                                                    id="basic-addon1">%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="m-0 py-2 text-primary"
+                                                                        style="text-align: center"
+                                                                        th:if="${#aggregates.sum(pesoActRaCurso.?[ra.id_ra==__${idRa}__].![porcent_pesoActRa])}!= null">
+                                                                        <h5 th:text="${#aggregates.sum(pesoActRaCurso.?[ra.id_ra==__${idRa}__].![porcent_pesoActRa])} + ' %'"
+                                                                            th:classappend="${#aggregates.sum(pesoActRaCurso.?[ra.id_ra==__${idRa}__].![porcent_pesoActRa])}==100?'text-success'">
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- descripción RA -->
+                                                                <div class="col bg-white m-2 p-2">
+                                                                    [[${ra.planRa.descripcion}]]
+                                                                </div>
+
+                                                            </div><!-- FIN body RAs -->
+                                                        </div> <!-- FIN RA -->
+                                                    </div> <!-- fin scroll horizontal -->
+                                                </div> <!-- fin tablas -->
+
+                                                <!-- JS - displayEmptyInputs -->
+                                                <script th:inline="javascript">
+                                                    function displayEmptyInputs() {
+                                                        //  obtener todas las celdas donde se introducen notas
+                                                        var divInputPesos = document.querySelectorAll('.divInputPorcentajePesoAct')
+                                                        //  recorrer todas las celdas
+                                                        for (var i = 0; i < divInputPesos.length; i++) {
+                                                            //  contar numero de elementos
+                                                            var numElemChildren = divInputPesos[i].childElementCount
+                                                            if (numElemChildren == 1) {
+                                                                //  mostrar input oculta cuando no hay nota guardada
+                                                                divInputPesos[i].firstElementChild.style.display = 'flex'
+                                                            }
+                                                        }
+                                                    }
+                                                    displayEmptyInputs();
+                                                </script>
+
+                                                <!-- footer accordion body -->
+                                                <div class="d-flex justify-content-center">
+                                                    <!-- BOTÓN EDITAR UF -->
+                                                    <button role="button" type="button" class="btn"
+                                                        data-bs-toggle="modal" data-bs-target="#newUfModal"
+                                                        th:value="${aUf.id_uf}" onclick="editarUF(this)">
+                                                        <img th:src="@{/icons/pencil.svg}" alt="editar">
+                                                    </button>
+                                                </div>
+
+                                            </div> <!-- end accordion body -->
+                                        </div>
+                                    </div> <!-- FIN ACCORDION ITEM -->
+                                </div>
+                            </div>
+                        </div> <!-- FIN ACCORDION -->
+                    </div>
+
+                    <!-- FORM ASIGNACIÓN PESO RAS -->
+                    <form action="#" th:action="@{/programacion/pesoActRa/save}" th:object="${newPesoActRa}"
+                        method="post" id="formPesoActRa" hidden>
+                        <input type="number" th:field="${newPesoActRa.actividad.id_act}" id="formPesoActRaIdAct">
+                        <input type="number" th:field="${newPesoActRa.ra.id_ra}" id="formPesoActRaIdRa">
+                        <input type="number" th:field="*{porcent_pesoActRa}" id="formPesoActRaPorcent">
+                    </form>
+
+                    <!-- MODALES -->
+                    <span th:insert="modals/new_uf.html :: uf_modal (title=#{add.uf.title})"></span>
+                    <span th:insert="modals/new_activity.html :: activity_modal (title=#{add.activity.title})"></span>
+                    <span th:insert="modals/new_rubrica.html :: rubrica_modal (title=#{add.activity.title})"></span>
+                    <span th:insert="modals/confirm_delete.html :: confirm_delete_modal"></span>
+                </div>
+
+            </div> <!-- FIN PANEL PRINCIPAL -->
+
+            <!-- FOOTER -->
+            <footer class="fixed-bottom">
+                <div th:replace="fragments/page.html :: footer_base"></div>
+            </footer>
+        </div> <!-- FIN CONTENIDO -->
+    </div>
+
+    <!-- JS ---------------------------------------------------------------- -->
+    <!-- MODALES UF -->
+    <script th:inline="javascript">
+        function updatePeso(input) {
+            // window.confirm("Entro en updatePeso")
+            //  get data from input
+            var idAct = input.getAttribute('data-peso-id-act')
+            var idRa = input.getAttribute('data-peso-id-ra')
+            var peso = input.value
+            if (peso > 100) {
+                peso = 100;
+            } else if (peso < 0) {
+                peso = 0;
+            }
+            //  set data to form inputs
+            document.getElementById('formPesoActRaIdAct').value = idAct
+            document.getElementById('formPesoActRaIdRa').value = idRa
+            document.getElementById('formPesoActRaPorcent').value = peso
+            //  post form info
+            document.getElementById('formPesoActRa').submit()
+        }
+
+        // MODAL UF SCRIPT 
+        function editarUF(button) {
+            //  show footer
+            var footerNewCourseModal = document.getElementById('newUfModalFooter')
+            footerNewCourseModal.style.display = 'inline'
+            var allDataElement = button.parentNode.parentNode.parentNode.parentNode.parentNode
+            var uf_id = allDataElement.getAttribute("data-uf-id")
+            var uf_coduf = allDataElement.getAttribute("data-uf-coduf")
+            var uf_planuf = allDataElement.getAttribute("data-uf-planuf")
+            var uf_nombre = allDataElement.getAttribute("data-uf-nombre")
+            var uf_horas = allDataElement.getAttribute("data-uf-horas")
+            var uf_inicio = allDataElement.getAttribute("data-uf-inicio")
+            var uf_fin = allDataElement.getAttribute("data-uf-fin")
+            var uf_curso = allDataElement.getAttribute("data-uf-curso")
+            loadUfFormData(uf_id, uf_coduf, uf_planuf, uf_nombre, uf_horas, uf_inicio, uf_fin, uf_curso)
+            // filter uf dropdown
+            filterUFDropdown()
+        }
+
+        // EDIT uf SCRIPT
+
+        function loadUfFormData(uf_id, uf_coduf, uf_planuf, uf_nombre, uf_horas, uf_inicio, uf_fin, uf_curso) {
+            var newUfVar = document.getElementById('newUfModal')
+            newUfVar.querySelector('#id_uf_modal').value = uf_id
+            newUfVar.querySelector('#select_uf_modal').value = uf_planuf
+            //newUfVar.querySelector('#cod_uf_modal').value = uf_coduf
+            //newUfVar.querySelector('#nombre_uf_modal').value = uf_nombre
+            newUfVar.querySelector('#horas_uf_modal').value = uf_horas
+            newUfVar.querySelector('#inicio_uf_modal').value = uf_inicio
+            newUfVar.querySelector('#fin_uf_modal').value = uf_fin
+            newUfVar.querySelector('#curso_uf_modal').value = uf_curso
+        }
+        // RESET EVENT FORM FUNCTION
+
+        function resetUfModal() {
+            // hide footer
+            var footerNewUfModal = document.getElementById('newUfModalFooter')
+            footerNewUfModal.style.display = 'none'
+            document.getElementById('ufForm').reset()
+            // filter uf dropdown
+            filterUFDropdown()
+            //  get id curso
+            var allCourseDataElement = document.getElementById('div_datos_curso')
+            var idCurso = allCourseDataElement.getAttribute('data-course-id')
+            //  set id curso
+            document.getElementById('curso_uf_modal').value = idCurso
+            // set dropdowns
+            document.getElementById('select_uf_modal').value = ""
+        }
+    </script>
+
+    <!-- DELETE COURSE -->
+    <script th:inline="javascript">
+        var ufIdToDelete
+        var actIdToDelete
+        /*
+                function deleteUfFromList(button) {
+                    //  find selected uf id (from button attribute)
+                    ufIdToDelete = button.getAttribute("data-uf-id") // crear
+                    //  set up link with pathvariable on delete button
+                    var deleteButton = document.getElementById('delete_button_confirmation')
+                    deleteButton.setAttribute('href', 'programacion/uf/delete/' + ufIdToDelete)
+                }
+        */
+        function deleteUfFromModal() {
+            //  find selected event uf (from hidden input)
+            ufIdToDelete = document.getElementById('id_uf_modal').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'programacion/uf/delete/' + ufIdToDelete)
+        }
+        function deleteActFromModal() {
+            //  find selected activity (from hidden input)
+            actIdToDelete = document.getElementById('id_act_modal').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'programacion/activity/delete/' + actIdToDelete)
+        }
+    </script>
+
+    <!-- MODALES ACTIVIDADES -->
+    <script th:inline="javascript">
+        function editActividad(link) {
+            var allDataElement = link.parentNode
+            var id_act = allDataElement.getAttribute("data-id-act")
+            var nombre = allDataElement.getAttribute("data-nombre-act")
+            var cod_act = allDataElement.getAttribute("data-cod-act")
+            var inicio_act = allDataElement.getAttribute("data-inicio-act")
+            var fin_act = allDataElement.getAttribute("data-fin-act")
+            var descripcion_act = allDataElement.getAttribute("data-descripcion-act")
+            var id_uf = allDataElement.getAttribute("data-id-uf")
+            var nombre_uf = allDataElement.getAttribute("data-nombre-uf")
+            var cod_uf = allDataElement.getAttribute("data-cod-uf")
+            var id_tipo_act = allDataElement.getAttribute("data-id-tipo-act")
+            loadActividadFormData(id_act, nombre, cod_act, inicio_act, fin_act, descripcion_act,
+                id_uf, nombre_uf, cod_uf, id_tipo_act)
+            showRAbyActivity()
+        }
+
+        function loadActividadFormData(id_act, nombre, cod_act, inicio_act, fin_act, descripcion_act,
+            id_uf, nombre_uf, cod_uf, id_tipo_act) {
+            var modalAct = document.getElementById('newActivityModal')
+            modalAct.querySelector('#id_act_modal').value = id_act
+            modalAct.querySelector('#nombre_act_modal').value = nombre
+            modalAct.querySelector('#cod_act_modal').value = cod_act
+            modalAct.querySelector('#inicio_act_modal').value = inicio_act
+            modalAct.querySelector('#fin_act_modal').value = fin_act
+            modalAct.querySelector('#act_description_modal').value = descripcion_act
+            modalAct.querySelector('#tipoActividad_modal').value = id_tipo_act
+            modalAct.querySelector('#ufTitleActivityModal').innerHTML = cod_uf + " - " + nombre_uf
+            modalAct.querySelector('#id_uf_act_modal').value = id_uf
+        }
+    </script>
+
+    <script th:inline="javascript">
+        function resetActModal(link) {
+            var id_uf_act = link.getAttribute("data-id-uf-act")
+            //  reset form
+            document.getElementById('activityForm').reset();
+            document.getElementById('id_act_modal').value = null
+            //  set dropdowns
+            document.getElementById('tipoActividad_modal').value = ""
+            //  get uf data
+            var allDataElement = link.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+            var cod_uf = allDataElement.getAttribute("data-uf-coduf")
+            var nombre_uf = allDataElement.getAttribute("data-uf-nombre")
+            //  set uf data
+            var modalAct = document.getElementById('newActivityModal')
+            modalAct.querySelector('#ufTitleActivityModal').innerHTML = cod_uf + " - " + nombre_uf
+            modalAct.querySelector('#id_uf_act_modal').value = id_uf_act
+        }
+    </script>
+
+    <script th:inline="javascript">
+        function openRubricaModal(link) {
+            var allDataElement = link.parentNode.parentNode
+            var id_act = allDataElement.getAttribute("data-id-act")
+            var id_uf_act = allDataElement.getAttribute("data-id-uf")
+            var nombre_act = allDataElement.getAttribute("data-nombre-act")
+            console.log(nombre_act)
+            var modalRubrica = document.getElementById('newRubricaModal')
+            modalRubrica.querySelector('#id_actividad_modal_rubrica').value = id_act
+            modalRubrica.querySelector('#nombre_actividad_modal_rubrica').innerHTML = nombre_act
+
+            filterRADropdown(id_uf_act)
+            clearDataRubricaForm()
+            loadRubricaFormData(link.parentNode, modalRubrica)
+            hideEmptyApartadosOnLoadModal()
+        }
+
+        function loadRubricaFormData(linkDiv, modalRubrica) {
+            var listApartdosData = linkDiv.querySelectorAll('.apartadosActProgramacion')
+            var listApartdosModalRow = modalRubrica.querySelectorAll('.apartadosByAct')
+            //  id act 
+            var id_act = linkDiv.getAttribute('data-id-act')
+            modalRubrica.querySelector('#formApartadosAct').setAttribute('data-id-actividad', id_act)
+
+            for (var i = 0; i < listApartdosData.length; i++) {
+                if (i > listApartdosModalRow.length) { break; }
+                listApartdosModalRow[i].querySelector('.inputIdApartadoForm').value = listApartdosData[i].getAttribute('data-id-apartado')
+                listApartdosModalRow[i].querySelector('.inputIdActApartadoForm').value = listApartdosData[i].getAttribute('data-id-act-apartado')
+                var inputDescripcion = listApartdosModalRow[i].querySelector('.inputDescriptcionApartadoForm')
+                inputDescripcion.value = listApartdosData[i].getAttribute('data-descripcion-apartado')
+                inputDescripcion.required = true
+                var selectRa = listApartdosModalRow[i].querySelector('.selectRaApartadoForm')
+                selectRa.value = listApartdosData[i].getAttribute('data-id-ra-apartado')
+                selectRa.required = true
+                var inputPeso = listApartdosModalRow[i].querySelector('.inputPesoApartadoForm')
+                inputPeso.value = listApartdosData[i].getAttribute('data-peso-apartado')
+                inputPeso.required = true
+            }
+        }
+    </script>
+
+    <!-- JS Bootstrap Bundle with Popper -->
+    <div th:insert="fragments/page.html ::script_bootstrap"></div>
+</body>
+
+</html>

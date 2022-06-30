@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/page.html :: html_base"></head>
+<body>
+    <!-- hay problemas con la altura de vh, parece ser más grande que la pantalla-->
+    <div class="container-fluid vh-100">
+
+        <!-- NAV -->
+        <div th:insert="fragments/page.html :: header_base (navTitle=#{evaluacion.nav.title}, backURL='modulos')"></div>
+        <!-- CONTENIDO -->
+        <div class="row justify-content-center">
+            <!-- PANEL LATERAL -->
+            <div class="col m-4 p-0" style="width:20em;">
+                <!-- PANEL UFS -->
+                <div class="row bg-light m-0 px-2 py-4">
+                    <!-- titulo -->
+                    <h5 class="text-center pb-3">[[#{uf.lable}]]</h5>
+                    <!-- lista UFs -->
+                    <div th:if="${!ufs.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="ufModulo : ${ufs}" id="eachUfs">
+                            <a class="btn col d-flex text-start" type="link"
+                                th:href="@{/evaluacion/(selected_uf=${ufModulo.id_uf})}"
+                                th:classappend="${currentUfId}==${ufModulo.id_uf}?'btn-primary2':'btn-white'">
+                                [[${ufModulo.planUf.cod_planUf}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!-- PANEL GRUPOS -->
+                <div class="row bg-light m-0 px-2 py-4">
+                    <!-- titulo -->
+                    <h5 class="text-center pb-3">[[#{groups.lable}]]</h5>
+                    <!-- lista grupos -->
+                    <div th:if="${!grupos.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="grupoAula : ${grupos}" id="eachGroup">
+                            <a class="btn col col-9 d-flex text-start" type="link"
+                                th:href="@{/evaluacion/(selected_group=${grupoAula.id_grupo})}"
+                                th:classappend="${currentGroupId}==${grupoAula.id_grupo}?'btn-primary2':'btn-white'">
+                                [[${grupoAula.nombre}]]
+                            </a>
+                            <div class="col col-3 p-0 text-end d-flex aligns-items-center">
+                                <button type="button" class="btn btn-white" data-bs-toggle="modal" name="edit_event_btn"
+                                    data-bs-target="#editGroupModal" onclick="editGroup(this)"
+                                    th:data-group-id="${grupoAula.id_grupo}" th:data-group-name="${grupoAula.nombre}">
+                                    <img th:src="@{/icons/pencil.svg}" alt="agregar">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- botón añadir grupo -->
+                <div class="row mx-0 mt-3">
+                    <a href="#newGroupModal" class="btn btn-labeled btn-primary2 p-2 fs-5" data-bs-toggle="modal"
+                        role="button" onclick="resetGroupModal()">
+                        <img class="mx-2 align-middle" th:src="@{/icons/plus-circle-white.svg}" alt="agregar">
+                        [[#{add.group}]]
+                    </a>
+                </div>
+
+                <!-- MODALES GRUPO -->
+                <div th:insert="modals/edit_group.html :: edit_group_modal (#{add.group.title})"></div>
+                <div th:insert="modals/new_group.html :: new_group_modal (#{add.group.title})"></div>
+            </div> <!-- FIN PANEL LATERAL -->
+
+            <!-- PANEL PRINCIPAL -->
+            <div class="col-10 my-4 mx-2 pe-4">
+                <div th:if="${currentCourse != null}">
+                    <!-- titulo -->
+                    <div class="row align-items-center">
+                        <div class="col col-md-8 my-2">
+                            <!-- description -->
+                            <h4 th:if="${!ufs.isEmpty()}">
+                                [[${currentCourse.planAsignatura.planEstudio.cod_planEstudio}]] -
+                                [[${currentCourse.planAsignatura.cod_planAsignatura}]] -
+                                [[${currentCourse.planAsignatura.nombre}]] -
+                                [[${currentUf.planUf.cod_planUf}]] - Actividades
+                            </h4>
+                            <br>
+                            <h5 th:if="${ufs.isEmpty() and grupos.isEmpty()}">[[#{no.data.to.show}]]</h5>
+                            <h5 th:if="${ufs.isEmpty() and !grupos.isEmpty()}">Añada una UF al curso.</h5>
+                            <h5 th:if="${!ufs.isEmpty() and grupos.isEmpty()}">Añada un grupo al curso.</h5>
+                        </div>
+                    </div>
+                    <!-- TABLA -->
+                    <div class="row d-flex m-0 p-0" th:if="${!ufs.isEmpty() and !grupos.isEmpty()}">
+                        <!-- ALUMNOS -->
+                        <div class="table-responsive col col-3 pe-1" style="min-width:10em;">
+                            <table class="table table-borderless ">
+                                <thead>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <th scope="colgroup">&nbsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <th>[[${#strings.toUpperCase(currentGroup.nombre)}]]</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                    <!-- EMPTY ROW -->
+                                    <tr class="bg-white align-middle" th:if="${#lists.size(alumnosGrupoCurso)==1}"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                        <td style="height: 4em">&nbsp;</td>
+                                    </tr>
+                                    <!-- EACH ALUMNO -->
+                                    <tr th:each="alumno : ${alumnosGrupoCurso}" class="bg-white align-middle"
+                                        id="eachAlumno" th:if="${alumno.id_alumno!=-1}"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25)); line-height: 1.5em; max-height: 4em; height: 4em;">
+                                        <td style="height: 4em;">
+                                            <a class="link-primary text-decoration-none"
+                                                style="overflow:hidden; white-space:nowrap; text-overflow: ellipsis;"
+                                                href="#newStudentModal" data-bs-toggle="modal"
+                                                onclick="loadDataToModalAlumno(this)"
+                                                th:data-id-alumno="${alumno.id_alumno}"
+                                                th:data-dni-alumno="${alumno.dni_alumno}"
+                                                th:data-nombre-alumno="${alumno.nombre}">
+                                                [[${alumno.nombre}]]
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr id="addAlumnoFormRow" class="bg-white"
+                                        th:classappend="${nuevoAlumnoForm}?'':'d-none'"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                        <td class="p-3" style="min-width:10em;">
+                                            <form action="#" th:action="@{/evaluacion/alumno/save}"
+                                                th:object="${newAlumno}" method="post" id="formNewAlumno">
+                                                <input type="number" th:field="*{id_alumno}" id="idNuevoAlumnoTable"
+                                                    hidden>
+                                                <div class="form-group d-flex flex-row flex-wrap gap-2 my-2">
+                                                    <div>
+                                                        <label for="dniTable" class="col-form-label"
+                                                            style="min-width: 4em" th:text="#{dni.lable}"></label>
+                                                    </div>
+                                                    <div class="flex-fill">
+                                                        <input type="text" class="form-control" id="dniTable"
+                                                            th:field="*{dni_alumno}" onchange="checkDniAlumno(this)">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-wrap gap-2 my-2">
+                                                    <div>
+                                                        <label for="nombreTable" class="col-form-label"
+                                                            style="min-width: 4em" th:text="#{name.lable}"></label>
+                                                    </div>
+                                                    <div class="flex-fill">
+                                                        <input type="text" class="form-control" id="nombreTable"
+                                                            th:field="*{nombre}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-wrap gap-2 mb-2 mt-4">
+                                                    <a class="btn btn-light col"
+                                                        th:href="@{/evaluacion/alumno/cancel_add_alumno}">
+                                                        [[#{cancel.lable}]]
+                                                    </a>
+                                                    <button class="btn btn-primary2 col">
+                                                        [[#{confirm.lable}]]
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr id="addAlumnoButtonRow" th:classappend="${nuevoAlumnoForm}?'d-none':''">
+                                        <td class="ps-0">
+                                            <!-- Add Alumno -->
+                                            <div class="bg-white m-0 col-8"
+                                                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));"
+                                                th:if="${!grupos.isEmpty()}">
+                                                <a href="#" class="btn btn_primary_base" role="button"
+                                                    th:href="@{/evaluacion/(nuevoAlumnoForm=true)}">
+                                                    <img th:src="@{/icons/plus-circle.svg}" alt="agregar" class="me-2">[[#{add.student}]]</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div th:insert="modals/new_student.html :: student_modal (#{add.student.title})"></div>
+                        </div>
+
+                        <!-- NOTAS -->
+                        <div class="col ps-1 d-flex align-items-start" style="overflow-x:scroll;">
+                            <table class="table table-borderless col">
+                                <thead>
+                                    <colgroup span="4"></colgroup>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <!-- HEADER: EACH ACTIVIDAD 1 -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <th></th>
+                                                <th class="bg-light text-center"
+                                                    th:colspan="${#lists.size(currentUf.ras)}"
+                                                    style="filter: drop-shadow(0em 0.2em 0.2em rgba(0, 0, 0, 0.25))">
+                                                    <a class="link-primary2 text-decoration-none text-truncate"
+                                                        th:href="'/evaluacion_actividades/'+${actividad.id_act}"
+                                                        style="overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">
+                                                        [[${actividad.cod_act}]]
+                                                    </a>
+                                                </th>
+                                            </div>
+                                        </div>
+                                        <th></th>
+                                        <!-- HEADER: TOTAL RAS 1 -->
+                                        <th th:each="rasUf : ${currentUf.ras}"></th>
+                                        <th></th>
+                                        <!-- HEADER: TOTAL UF 1 -->
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <!-- HEADER: EACH ACTIVIDAD 2 -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <th></th>
+                                                <th th:each="raAct : ${actividad.uf.ras}" class="bg-light text-center">
+                                                    [[${raAct.planRa.cod_planRa}]]
+                                                </th>
+                                            </div>
+                                        </div>
+                                        <th></th>
+                                        <!-- HEADER: TOTAL RAS 2 -->
+                                        <th th:each="rasUf : ${currentUf.ras}" class="bg-light text-center">
+                                            [[${rasUf.planRa.cod_planRa}]]
+                                        </th>
+                                        <th></th>
+                                        <!-- HEADER: TOTAL UF 2 -->
+                                        <th class="bg-primary2 text-center text-white">UF</th>
+                                    </tr>
+                                    <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                        <!-- HEADER: EACH ACTIVIDAD 3 -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <th style="max-width: 5em; width: 0.5em"></th>
+                                                <!-- EACH RA -->
+                                                <th th:each="raAct : ${actividad.uf.ras}" class="bg-light text-center"
+                                                    style="min-width: 5em; width:5em;">
+                                                    <!-- EACH PESOS ACT-RA -->
+                                                    <div th:each="pesoAR : ${pesosActRa}" class="pesoActividadRa"
+                                                        th:if="${pesoAR.ra.id_ra==raAct.id_ra and pesoAR.actividad.id_act==actividad.id_act}"
+                                                        th:data-id-actividad="${pesoAR.actividad.id_act}"
+                                                        th:data-id-ra="${pesoAR.ra.id_ra}"
+                                                        th:data-peso-act-ra="${pesoAR.porcent_pesoActRa}">
+                                                        [[${pesoAR.porcent_pesoActRa}]]%
+                                                    </div>
+                                                </th>
+                                            </div>
+                                        </div>
+                                        <th></th>
+                                        <!-- HEADER: TOTAL RAS 3 -->
+                                        <th th:each="rasUf : ${currentUf.ras}" class="bg-light text-center"
+                                            style="min-width: 5em; width:5em;">
+                                            [[${rasUf.planRa.porcent_uf}]]%
+                                        </th>
+                                        <th style="max-width: 5em; width: 0.5em"></th>
+                                        <!-- HEADER: TOTAL UF 3 -->
+                                        <th style="min-width: 5em; width:5em;" class="bg-primary2 text-center"></th>
+                                        <th style="max-width: 5em; width: 0.5em">&nbsp;</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody
+                                    style="border-collapse: separate; border-spacing:0em 0.65em; line-height: 1.5em; max-height: 4em; height: 4em;">
+                                    <!-- EMPTY ROW -->
+                                    <tr class="bg-white align-middle" th:if="${#lists.size(alumnosGrupoCurso)==1}"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                        <!-- BODY: EACH ACTIVIDAD -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <td></td>
+                                                <!-- EACH RA -->
+                                                <td th:each="raAct : ${actividad.uf.ras}">
+                                                    <!-- EACH EVALUACIÓN -->
+                                                </td>
+                                            </div>
+                                        </div>
+                                        <td></td>
+                                        <!-- BODY: TOTAL RAS -->
+                                        <td th:each="rasUf : ${currentUf.ras}">
+                                        </td>
+                                        <td></td>
+                                        <!-- BODY: TOTAL UF -->
+                                        <td></td>
+                                        <td style="height: 4em">&nbsp;</td>
+                                    </tr>
+                                    <!-- BODY ROW: EACH ALUMNO-->
+                                    <tr th:each="alumno : ${alumnosGrupoCurso}" class="bg-white align-middle"
+                                        id="eachAlumno" th:if="${alumno.id_alumno!=-1}"
+                                        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                        <!-- BODY: EACH ACTIVIDAD -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <td></td>
+                                                <!-- EACH RA -->
+                                                <td th:each="raAct : ${actividad.uf.ras}"
+                                                    th:data-id-actividad="${actividad.id_act}"
+                                                    th:data-id-ra="${raAct.id_ra}"
+                                                    th:data-id-alumno="${alumno.id_alumno}"
+                                                    class="align-items-center text-center cellTotalRaAct">
+                                                    <!-- EACH EVALUACIÓN -->
+                                                    <div th:each="evaluacion : ${evaluacionesUf}" th:if="${evaluacion.apartado.actividad.id_act == actividad.id_act 
+                                                                and evaluacion.apartado.ra.id_ra==raAct.id_ra
+                                                                and evaluacion.alumno.id_alumno==alumno.id_alumno}"
+                                                        th:data-nota="${evaluacion.nota}"
+                                                        th:data-id-actividad="${evaluacion.apartado.actividad.id_act}"
+                                                        th:data-id-ra="${evaluacion.apartado.ra.id_ra}"
+                                                        th:data-id-alumno="${evaluacion.alumno.id_alumno}"
+                                                        th:data-peso-apartado-ra="${evaluacion.apartado.peso_apdo_act_ra}"
+                                                        class="tempElementNota" hidden>
+                                                    </div>
+                                                </td>
+                                            </div>
+                                        </div>
+                                        <td></td>
+                                        <!-- BODY: TOTAL RAS -->
+                                        <td th:each="rasUf : ${currentUf.ras}" class="cellTotalRaUf text-center"
+                                            th:data-id-ra="${rasUf.id_ra}" th:data-peso-ra="${rasUf.planRa.porcent_uf}"
+                                            th:data-id-alumno="${alumno.id_alumno}">
+                                        </td>
+                                        <td></td>
+                                        <!-- BODY: TOTAL UF -->
+                                        <td class="cellTotalUf text-center" th:data-id-alumno="${alumno.id_alumno}">
+                                        </td>
+                                        <td style="height: 4em">&nbsp;</td>
+                                    </tr>
+
+                                    <!-- CALCULAR NOTAS -->
+                                    <script th:inline="javascript">
+                                        function calculateTotalRaActividad() {
+                                            //  obtener todas las celdas para mostrar notas totales de RA de cada actividad
+                                            var cellsNotasRaActividad = document.querySelectorAll('.cellTotalRaAct')
+                                            //  obtener todas los inputs con notas
+                                            var tempDivNotasApartados = document.querySelectorAll('.tempElementNota')
+                                            //  recorrer todas las celdas de totales RA
+                                            for (var i = 0; i < cellsNotasRaActividad.length; i++) {
+                                                var nota = 0
+                                                //  obtener id RA, id act y id alumno de la celda total RA
+                                                var idRa = cellsNotasRaActividad[i].getAttribute('data-id-ra')
+                                                var idActRa = cellsNotasRaActividad[i].getAttribute('data-id-actividad')
+                                                var idAlumnoRa = cellsNotasRaActividad[i].getAttribute('data-id-alumno')
+                                                //  recorrer evaluaciones y añadir nota   
+                                                for (var j = 0; j < tempDivNotasApartados.length; j++) {
+                                                    if (tempDivNotasApartados[j] = !null) {
+                                                        //  obtener id RA, id act y id alumno del div con la información de evaluación
+                                                        var idRaEvaluacion = tempDivNotasApartados[j].getAttribute('data-id-ra')
+                                                        var idActEvaluacion = tempDivNotasApartados[j].getAttribute('data-id-actividad')
+                                                        var idAlumnoEvaluacion = tempDivNotasApartados[j].getAttribute('data-id-alumno')
+                                                        //  comprobar el alumno y el RA del apartdo
+                                                        if (idRaEvaluacion == idRa && idAlumnoRa == idAlumnoEvaluacion && idActRa == idActEvaluacion) {
+                                                            var pesoApartado = parseFloat(tempDivNotasApartados[j].getAttribute('data-peso-apartado-ra'))
+                                                            var notaApartado = parseFloat(tempDivNotasApartados[j].getAttribute('data-nota'))
+                                                            nota = nota + (notaApartado * pesoApartado / 100)
+                                                        }
+                                                    }
+                                                }
+                                                //  mostrar valor (sobreescribe los div con la información de evaluación)
+                                                cellsNotasRaActividad[i].innerHTML = nota.toFixed(2)
+                                            }
+                                        }
+                                        calculateTotalRaActividad()
+
+                                        function calculateTotalRaUf() {
+                                            //  obtener celdas para las notas de las RAs de la UF
+                                            var cellsNotaRA = document.querySelectorAll('.cellTotalRaUf')
+                                            //  obtener celdas con notas totales de RA de cada Actividad
+                                            var cellsNotasRaActividad = document.querySelectorAll('.cellTotalRaAct')
+                                            //  obtener pesos actividad Ra
+                                            var listaPesosActividadRa = document.querySelectorAll('.pesoActividadRa')
+
+                                            //  recorrer notas Ras Uf
+                                            for (var i = 0; i < cellsNotaRA.length; i++) {
+                                                var nota = 0
+                                                //  obtener datos Ra Uf
+                                                var idRaUf = cellsNotaRA[i].getAttribute('data-id-ra')
+                                                var idAlumnoRaUf = cellsNotaRA[i].getAttribute('data-id-alumno')
+
+                                                // recorrer notas ras actividades
+                                                for (var j = 0; j < cellsNotasRaActividad.length; j++) {
+                                                    //  obtener datos Ra Act
+                                                    var idRaAct = cellsNotasRaActividad[j].getAttribute('data-id-ra')
+                                                    var idAlumnoRaAct = cellsNotasRaActividad[j].getAttribute('data-id-alumno')
+
+                                                    if (idRaUf == idRaAct && idAlumnoRaUf == idAlumnoRaAct) {
+                                                        //  obtener datos Ra Act
+                                                        var idActRaAct = cellsNotasRaActividad[j].getAttribute('data-id-actividad')
+                                                        var notaRaAct = parseFloat(cellsNotasRaActividad[j].innerHTML)
+                                                        var pesoActividadRa = 0
+                                                        //  obtener peso act ra
+                                                        for (var k = 0; k < listaPesosActividadRa.length; k++) {
+                                                            var idRaPesoAct = listaPesosActividadRa[k].getAttribute('data-id-ra')
+                                                            var idActPesoAct = listaPesosActividadRa[k].getAttribute('data-id-actividad')
+                                                            if (idActPesoAct == idActRaAct && idRaPesoAct == idRaAct) {
+                                                                pesoActividadRa = parseFloat(listaPesosActividadRa[k].getAttribute('data-peso-act-ra'))
+                                                            }
+                                                        }
+                                                        nota = nota + (notaRaAct * pesoActividadRa / 100)
+                                                    }
+                                                }
+                                                cellsNotaRA[i].innerHTML = nota.toFixed(2)
+                                            }
+                                        }
+                                        calculateTotalRaUf()
+
+                                        function calculateTotalUF() {
+                                            //  obtener celdas con las notas de las RAs de la UF
+                                            var cellsNotaRA = document.querySelectorAll('.cellTotalRaUf')
+                                            //  obtener celdas para la nota de la UF
+                                            var cellsNotaUF = document.querySelectorAll('.cellTotalUf')
+                                            //  recorrer notas Uf  
+                                            for (var i = 0; i < cellsNotaUF.length; i++) {
+                                                var nota = 0
+                                                // obtener id alumno uf
+                                                var idAlumnoUf = cellsNotaUF[i].getAttribute('data-id-alumno')
+                                                for (var j = 0; j < cellsNotaRA.length; j++) {
+                                                    // obtener id alumno ra
+                                                    var idAlumnoRa = cellsNotaRA[j].getAttribute('data-id-alumno')
+                                                    if (idAlumnoUf == idAlumnoRa) {
+                                                        var notaRa = parseFloat(cellsNotaRA[j].innerHTML)
+                                                        var pesoRa = parseFloat(cellsNotaRA[j].getAttribute('data-peso-ra'))
+                                                        nota = nota + (notaRa * pesoRa / 100)
+                                                    }
+                                                }
+                                                cellsNotaUF[i].innerHTML = nota.toFixed(2)
+                                            }
+                                        }
+                                        calculateTotalUF()
+
+                                    </script>
+                                </tbody>
+                                <tfoot style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                    <tr>
+                                        <!-- FOOTER: EACH ACTIVIDAD -->
+                                        <div th:if="${!actividadesCurso.isEmpty()}">
+                                            <div th:each="actividad : ${actividadesCurso}">
+                                                <td></td>
+                                                <td class="bg-light" th:each="raAct : ${actividad.uf.ras}"></td>
+                                            </div>
+                                        </div>
+                                        <td></td>
+                                        <td th:each="rasUf : ${currentUf.ras}" class="bg-light"></td>
+                                        <td></td>
+                                        <td class="bg-primary2 text-center"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="#" th:action="@{/evaluacion/alumno/dni}" th:object="${newAlumno}" method="post"
+                    id="formCheckDni" hidden>
+                    <input type="text" th:field="*{dni_alumno}" id="check_dni_alumno_hidden_input">
+                </form>
+                <script th:inline="javascript">
+                    function checkDniAlumno(input) {
+                        //  get dni
+                        const dni = input.value
+                        document.getElementById('check_dni_alumno_hidden_input').value = dni
+                        //  post form
+                        document.getElementById('formCheckDni').submit()
+                    }
+                </script>
+                <span th:insert="modals/confirm_delete.html :: confirm_delete_modal"></span>
+            </div> <!-- FIN PANEL PRINCIPAL -->
+        </div> <!-- FIN CONTENIDO -->
+
+        <footer>
+            <div th:replace="fragments/page.html :: footer_base"></div>
+        </footer>
+    </div>
+
+    <!-- JS ---------------------------------------------------------------- -->
+    <!-- ALUMNO -->
+    <script th:inline="javascript">
+        function loadDataToModalAlumno(link) {
+            //  get datos alumno
+            const id = link.getAttribute('data-id-alumno')
+            const dni = link.getAttribute('data-dni-alumno')
+            const nombre = link.getAttribute('data-nombre-alumno')
+            //  send data to modal
+            document.getElementById('id_alumno_modal').value = id
+            document.getElementById('dni_modal').value = dni
+            document.getElementById('nombre_modal').value = nombre
+        }
+
+        function deleteAlumnoFromModal() {
+            //  find selected alumno id (from hidden input)
+            alumnoIdToDelete = document.getElementById('id_alumno_modal').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', 'evaluacion/alumno/delete/' + alumnoIdToDelete)
+        }
+    </script>
+
+    <!-- MODAL EDIT GROUP -->
+    <script th:inline="javascript">
+        var newGroupModalVar = document.getElementById('editGroupModal')
+        function editGroup(button) {
+            // action: save
+            //document.getElementById('groupForm').action = '/evaluacion/grupo/save'
+            //  get data
+            var group_id = button.getAttribute('data-group-id')
+            var group_name = button.getAttribute('data-group-name')
+            //  update the modal's content
+            var modalIdGrupoInput = newGroupModalVar.querySelector('#modal_group_id')
+            modalIdGrupoInput.value = group_id
+            var modalNameInput = newGroupModalVar.querySelector('#modal_group_name')
+            modalNameInput.value = group_name
+        }
+    </script>
+
+    <!-- RESET NEW GROUP FORM -->
+    <script th:inline="javascript">
+        function resetGroupModal() {
+            document.getElementById('agcForm').reset()
+            // clear id grupo
+            document.getElementById('modal_group_id').value = null
+            // add id curso
+            document.getElementById('modal_agc_course_id').value = /*[[${currentCourse.id_curso}]]*/ ""
+            //console.log(document.getElementById('modal_agc_course_id').value)
+        }
+    </script>
+
+    <!-- DELETE GROUP -->
+    <script th:inline="javascript">
+        function deleteGroupFromModal() {
+            //  find selected event id (from hidden input)
+            groupIdToDelete = document.getElementById('modal_group_id').value
+            //  set up link with pathvariable on delete button
+            var deleteButton = document.getElementById('delete_button_confirmation')
+            deleteButton.setAttribute('href', '/evaluacion/grupo/delete/' + groupIdToDelete)
+        }
+    </script>
+
+    <!-- JS Bootstrap Bundle with Popper -->
+    <div th:insert="fragments/page.html ::script_bootstrap"></div>
+
+</body>
+</html>

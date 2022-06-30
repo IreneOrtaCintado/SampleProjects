@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Button llamada course_modal -->
+<a th:fragment="btn_course_modal" href="#newCourseModal" class="btn btn_primary_base" data-bs-target="#newCourseModal"
+  data-bs-toggle="modal" data-bs-dismiss="modal" role="button">
+  <img class="mx-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.module}">
+</a>
+
+<!-- MODAL CURSO -->
+<div th:fragment="course_modal (title)" class="modal fade" id="newCourseModal" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <!-- header -->
+      <div th:insert="modals/fragments_modal.html :: header_modal (#{add.module.title})"></div>
+      <!-- body -->
+      <div class="modal-body">
+        <div class="container">
+          <!-- FORM -->
+          <form id="courseForm" action="#" th:action="@{/curso/save}" th:object="${newCurso}" method="post">
+            <!-- HIDDEN FIELDS -->
+            <input type="hidden" id="id_curso_modal" name="id_curso_modal" th:field="*{id_curso}">
+            <input type="hidden" id="curso_centro_nombre_field" th:field="*{centro.nombre}">
+            <input type="hidden" id="curso_centro_email_field" th:field="*{centro.mail}">
+            <!-- AÑO -->
+            <div class="form-group row mb-3">
+              <label for="anyo" class="col-3 col-form-label" th:text="#{years.lable}"></label>
+              <input type="text" class="form-control col me-3" id="anyo_modal" name="anyo_modal" placeholder="YYYY/YYYY"
+                th:field="*{anyo}" minlength="9" maxlength="9" pattern="\d{4}/\d{4}" required>
+            </div>
+
+            <!-- CENTRO -->
+            <div class="row mb-3">
+              <label for="centro" class="col-3 col-form-label" th:text="#{center.lable}"></label>
+              <select class="form-control col mx-0" type="number" id="centro_modal" name="centro_modal"
+                data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                th:field="*{centro.id_centro}" onchange="updateDataSelectedCentro(this)" required>
+                <option value="" disabled hidden>[[#{select.default.text}]]</option>
+                <option th:each="unCentro : ${centros}" class="centroOption_modal" th:value="${unCentro.id_centro}"
+                  th:data-id-centro="${unCentro.id_centro}" th:data-nombre-centro="${unCentro.nombre}"
+                  th:data-email-centro="${unCentro.mail}" th:text="${unCentro.nombre}">
+                </option>
+              </select>
+              <!-- abrir modal nuevo centro -->
+              <span class="col-sm-1 px-0 me-0 ms-4" th:insert="modals/new_center.html :: btn_center_modal"></span>
+            </div>
+
+            <!-- CICLO -->
+            <div class="row mb-3">
+              <label for="planEstudios" class="col-sm-3 col-form-label" th:text="#{plaEstudio.lable}"></label>
+              <select class="form-control col me-3" id="selectedPlanEstudio_modal" name="selectedPlanEstudio_modal"
+                data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                th:field="${selectedPlanEtudios.id_planEstudio}" onchange="updateAsignaturas(this)" required>
+                <option value="" disabled selected hidden>[[#{select.default.text}]]</option>
+                <option th:each="unEstudio : ${planEstudios}" th:value="${unEstudio.id_planEstudio}"
+                  th:text="|${unEstudio.getCod_planEstudio} - ${unEstudio.getNombre}|">
+                </option>
+              </select>
+            </div>
+
+            <!-- MODULO -->
+            <div class="row mb-3">
+              <label for="planAsignatura" class="col-sm-3 col-form-label" th:text="#{plaAsig.lable}"></label>
+              <select class="form-control col me-3" id="selectedPlanAsignatura_modal" name="selectedPlanAsignatura_modal"
+                data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                th:field="*{planAsignatura.id_planAsignatura}" onchange="updateDatosModulo(this)" required>
+                <option value="" disabled selected hidden>[[#{select.default.text}]]</option>
+                <option th:each="unaAsig : ${planAsignaturas}" class="planAsignaturaOption_modal"
+                  th:value="${unaAsig.id_planAsignatura}" th:data-id-modulo="${unaAsig.id_planAsignatura}"
+                  th:data-hours-modulo="${unaAsig.horas_planAsignatura}"
+                  th:data-course-id="${unaAsig.planEstudio.id_planEstudio}"
+                  th:text="|${unaAsig.getCod_planAsignatura} - ${unaAsig.getNombre}|" disabled hidden>
+                </option>
+              </select>
+            </div>
+
+            <!-- HORAS -->
+            <div class="form-group row mb-3">
+              <label for="horas_curso_modal" class="col-3 col-form-label" th:text="#{hours.lable}"></label>
+              <input type="number" class="form-control col me-3" id="horas_curso_modal" name="horas_curso_modal"
+                th:field="*{horas_curso}" min="1" max="9999" required>
+            </div>
+
+            <!-- ACCEPT BUTTON -->
+            <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+          </form>
+        </div>
+      </div> <!-- fin body -->
+
+      <!-- footer -->
+      <div id="newCourseModalFooter" class="modal-footer">
+        <!-- DELETE BUTTON -->
+        <div class="row justify-content-center">
+          <a href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button"
+            onclick="deleteCourseFromModal()">
+            <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS ---------------------------------------------------------------- -->
+  <!-- UPDATE DROPDOWN MODULO -->
+  <script th:inline="javascript">
+    function updateAsignaturas(element) {
+      var idEstudio = element.value
+      filtrarModulos(idEstudio)
+      document.getElementById('selectedPlanAsignatura_modal').value = ''
+      document.getElementById('horas_curso_modal').value = ''
+    }
+
+    function filtrarModulos(id) {
+      //  get all option elements
+      var options = document.querySelectorAll('.planAsignaturaOption_modal');
+      //  filter displayed elements
+      for (var i = 0; i < options.length; i++) {
+        var selectedId = options[i].getAttribute("data-course-id");
+        if (!selectedId.match(id)) {
+          $(options[i]).prop('disabled', 'disabled').hide();
+          $(options[i]).prop('hidden', 'hidden').hide();
+        } else {
+          $(options[i]).removeAttr('disabled').show();
+          $(options[i]).removeAttr('hidden').show();
+        }
+      }
+    }
+  </script>
+
+  <!-- UPDATE HORAS SELECTED MODULO -->
+  <script th:inline="javascript">
+    function updateDatosModulo(select) {
+      //  id selected modulo
+      var idSelectedModulo = select.value
+      //  all options from select Modulos
+      var options = document.querySelectorAll('.planAsignaturaOption_modal');
+      //  search selected option
+      for (var i = 0; i < options.length; i++) {
+        var id = options[i].getAttribute('data-id-modulo')
+        if (options[i].value == idSelectedModulo) {
+          // modify horas
+          var horasPorDefecto = options[i].getAttribute('data-hours-modulo')
+          document.getElementById('horas_curso_modal').value = horasPorDefecto
+          break
+        }
+      }
+    }
+  </script>
+
+  <!-- UPDATE DATA SELECTED CENTRO -->
+  <script th:inline="javascript">
+    function updateDataSelectedCentro(select) {
+      //  id selected centro
+      var idSelectedCentro = select.value
+      //  all options from select Centros
+      var options = document.querySelectorAll('.centroOption_modal');
+      //  search selected option
+      for (var i = 0; i < options.length; i++) {
+        var id = options[i].getAttribute('data-id-centro')
+        if (options[i].value == idSelectedCentro) {
+          //  get attributes from selected option 
+          var nombreCentro = options[i].getAttribute('data-nombre-centro')
+          var emailCentro = options[i].getAttribute('data-email-centro')
+          //  set hidden fields
+          document.getElementById('curso_centro_nombre_field').value = nombreCentro
+          document.getElementById('curso_centro_email_field').value = emailCentro
+          break
+        }
+      }
+    }
+  </script>
+</div> <!-- FIN MODAL CURSO -->

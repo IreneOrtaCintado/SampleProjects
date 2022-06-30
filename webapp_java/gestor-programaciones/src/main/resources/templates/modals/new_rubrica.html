@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Button llamada rubrica_modal -->
+
+<a th:fragment="btn_rubrica_modal" href="#newRubricaModal" class="btn btn_primary_base" data-bs-toggle="modal"
+  role="button">
+  <img class="mx-1 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar"></a>
+
+<!-- rubrica_modal -->
+<div th:fragment="rubrica_modal (title)" class="modal fade" id="newRubricaModal" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-lg">
+    <div class="modal-content">
+
+      <div th:insert="modals/fragments_modal.html :: header_modal (#{add.rubrica.title})"></div>
+
+      <div class="modal-body">
+
+        <h5 id="modal_rubrica_title"></h5>
+
+        <!-- FORM -->
+        <form action="#" th:action="@{/programacion/rubrica/save}" th:object="${newApartadosAct}" method="post"
+          id="formApartadosAct" data-id-actividad="">
+          <div class="container">
+
+            
+            <!-- table header -->
+            <div class="row mx-0 px-0">
+              <h5 class=" m-0 my-2 p-0 me-1" style="text-align: left" id="nombre_actividad_modal_rubrica"></h5>
+            </div>
+
+            <div class="row mx-0 px-0">
+              <div class="col-7 m-0 my-2 p-0 me-1">Apartado</div>
+              <div class="col-2 m-0 my-2 p-0 me-1" style="text-align: center">Ra</div>
+              <div class="col m-0 my-2 p-0" style="text-align: center">% del RA</div>
+              <div class="col-1 m-0 my-2 p-0 me-1"></div>
+            </div>
+
+            <!-- EACH APARTADO -->
+            <div th:each="aApartado, itemStat : *{apartados}" class="row apartadosByAct px-2"
+              th:data-index-apartado="${itemStat.index}">
+
+              <!-- HIDDEN INPUTS -->
+              <input type="hidden" name="id_apdo_modal" id="id_apdo_modal_rubrica"
+                th:field="*{apartados[__${itemStat.index}__].id_apdo}" class="inputIdApartadoForm">
+              <input type="hidden" name="actividad_modal" id="id_actividad_modal_rubrica"
+                th:field="*{apartados[__${itemStat.index}__].actividad.id_act}" class="inputIdActApartadoForm">
+              <!-- DESCRIPCION -->
+              <div class="col-7 m-0 my-2 p-0 me-1">
+                <input type="text" class="form-control inputDescriptcionApartadoForm" id="descripcion"
+                  name="descripcion" th:field="*{apartados[__${itemStat.index}__].descripcion}">
+              </div>
+              <!-- SELECT RA -->
+              <div class="col-2 m-0 my-2 p-0 me-1">
+                <select class="form-select selectRaApartadoForm" id="select_ra_apartado_modal_rubrica"
+                  data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                  name="select_ra_apartado" th:field="*{apartados[__${itemStat.index}__].ra.id_ra}">
+
+                  <option value="" disabled selected hidden></option>
+
+                  <option th:each="unRa : ${rasCurso}" th:value="${unRa.id_ra}" th:text="${unRa.planRa.cod_planRa}"
+                    th:data-id-uf-ra="${unRa.uf.id_uf}" class="codRaOption">
+                  </option>
+                </select>
+              </div>
+              <!-- PESO -->
+              <div class="col input-group m-0 my-2 p-0 text-center">
+                <input type="number" class="form-control form-control-sm inputPesoApartadoForm"
+                  id="peso_apdo_act_ra_modal_rubrica" min="0" max="100" step="1" name="peso_apdo_act_ra"
+                  th:field="*{apartados[__${itemStat.index}__].peso_apdo_act_ra}" onchange="controlValuePeso(this)">
+                <span class="input-group-text" id="basic-addon1">%</span>
+              </div>
+              <!-- DELETE -->
+              <div class="col-1 m-0 my-2 p-0">
+                <a class="btn btn-white" onclick="deleteApartado(this)"
+                  th:data-apartado-del="*{apartados[__${itemStat.index}__].id_apdo}">
+                  <img th:src="@{/icons/trash.svg}" alt="delete">
+                </a>
+              </div>
+
+            </div>
+
+            <!-- BOTÓN AÑADIR APARTADO (usar onclick) -->
+            <div class="px-0 mx-0" id="divButtonAddApartadoRubrica">
+              <a class="btn btn_primary_base px-0 mx-0" onclick="addApartado(this)">
+                <img class="me-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar">
+                [[#{rubrica.add.apdo}]]
+              </a>
+            </div>
+            <br>
+          </div>
+          <!-- BOTÓN CONFIRMAR -->
+          <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+
+        </form>
+
+        <script th:inline="javascript">
+          /*
+          function showApartadosbyActivity() {
+            var allApartadosbyCourse = document.querySelectorAll('.apartadosByAct')
+            var idAct = document.getElementById('id_rubrica_act_modal').value
+            for (var i = 0; i < allApartadosbyCourse.length; i++) {
+              console.log(allApartadosbyCourse[i].getAttribute('data-apartado-id-act'))
+              if (idAct == allApartadosbyCourse[i].getAttribute('data-apartado-id-act')) {
+                allApartadosbyCourse[i].style.display = 'flex'
+              } else {
+                allApartadosbyCourse[i].style.display = 'none'
+              }
+            }
+          }*/
+
+          function filterRADropdown(idUfAct) {
+            var options = document.querySelectorAll('.codRaOption');
+            //  filter displayed elements
+            for (var i = 0; i < options.length; i++) {
+              var idUf = options[i].getAttribute("data-id-uf-ra");
+              if (idUf != idUfAct) {
+                $(options[i]).prop('disabled', 'disabled').hide();
+                $(options[i]).prop('hidden', 'hidden').hide();
+              } else {
+                $(options[i]).removeAttr('disabled').show();
+                $(options[i]).removeAttr('hidden').show();
+              }
+            }
+          }
+
+          function clearDataRubricaForm() {
+            //  find all form elements
+            var inputsIdApartados = document.querySelectorAll('.inputIdApartadoForm')
+            var inputsIdActApartados = document.querySelectorAll('.inputIdActApartadoForm')
+            var inputsDescripcionApartados = document.querySelectorAll('.inputDescriptcionApartadoForm')
+            var inputsIdRaApartados = document.querySelectorAll('.selectRaApartadoForm')
+            var inputsPesoApartados = document.querySelectorAll('.inputPesoApartadoForm')
+            // clear id apartados data
+            for (var i = 0; i < inputsIdApartados.length; i++) {
+              inputsIdApartados[i].value = null
+            }
+            // clear id act apartados data
+            for (var i = 0; i < inputsIdActApartados.length; i++) {
+              inputsIdActApartados[i].value = null
+            }
+            // clear descripcion apartados data
+            for (var i = 0; i < inputsDescripcionApartados.length; i++) {
+              inputsDescripcionApartados[i].value = null
+              inputsDescripcionApartados[i].required = false
+            }
+            // clear ra apartados data
+            for (var i = 0; i < inputsIdRaApartados.length; i++) {
+              inputsIdRaApartados[i].value = ''
+              inputsIdRaApartados[i].required = false
+            }
+            // clear peso apartados data
+            for (var i = 0; i < inputsPesoApartados.length; i++) {
+              inputsPesoApartados[i].value = 0
+              inputsPesoApartados[i].required = false
+            }
+            // display add button
+            document.querySelector('#divButtonAddApartadoRubrica').style.display = 'flex'
+          }
+
+          function hideEmptyApartadosOnLoadModal() {
+            //  search all
+            var modalRubrica = document.getElementById('newRubricaModal')
+            var allInputApartadosAct = modalRubrica.querySelectorAll('.apartadosByAct')
+            //  hide empty
+            for (var i = 0; i < allInputApartadosAct.length; i++) {
+              var inputIdApartado = allInputApartadosAct[i].querySelector('.inputIdApartadoForm')
+              if (inputIdApartado.value) {
+                console.log(inputIdApartado)
+                allInputApartadosAct[i].style.display = 'flex'
+              } else {
+                allInputApartadosAct[i].style.display = 'none'
+              }
+            }
+          }
+
+          function addApartado(button) {
+            //  search all
+            var modalRubrica = document.getElementById('newRubricaModal')
+            var allInputApartadosAct = modalRubrica.querySelectorAll('.apartadosByAct')
+            for (var i = 0; i < allInputApartadosAct.length; i++) {
+              if (allInputApartadosAct[i].style.display == 'none') {
+                allInputApartadosAct[i].style.display = 'flex'
+                // make displayed inputs required
+                allInputApartadosAct[i].querySelector('.inputDescriptcionApartadoForm').required = true
+                allInputApartadosAct[i].querySelector('.selectRaApartadoForm').required = true
+                allInputApartadosAct[i].querySelector('.inputPesoApartadoForm').required = true
+                // add act id
+                var id_act = modalRubrica.querySelector('#formApartadosAct').getAttribute('data-id-actividad')
+                allInputApartadosAct[i].querySelector('.inputIdActApartadoForm').value = id_act
+                // hide add button
+                if (i == (allInputApartadosAct.length - 1)) {
+                  var apartado = button.parentNode
+                  apartado.style.display = 'none'
+                }
+                break
+              }
+            }
+          }
+
+          function deleteApartado(button) {
+            var elementApartado = button.parentNode.parentNode
+            // clear element (leave id_act)
+            elementApartado.querySelector('.inputIdApartadoForm').value = null
+
+            var inputDescripcion = elementApartado.querySelector('.inputDescriptcionApartadoForm')
+            inputDescripcion.value = null
+            var selectRa = elementApartado.querySelector('.selectRaApartadoForm')
+            selectRa.value = ''
+            var inputPeso = elementApartado.querySelector('.inputPesoApartadoForm')
+            inputPeso.value = 0
+            // make non displayed inputs not required
+            inputDescripcion.required = false
+            selectRa.required = false
+            inputPeso.required = false
+            // hide element
+            elementApartado.style.display = 'none'
+            // show add button
+            var addButton = elementApartado.parentNode.querySelector('#divButtonAddApartadoRubrica')
+            addButton.style.display = 'flex'
+            // TODO: reordenar elementos al eliminar
+          }
+
+
+          function controlValuePeso(input) {
+            if (input.value < 0) {
+              input.value = 0
+            } else if (input.value > 100) {
+              input.value = 100
+            }
+          }
+
+        </script>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</div>

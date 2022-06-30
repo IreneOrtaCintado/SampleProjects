@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Button principal flotante en rojo link -->
+<div th:fragment="btn_primary_link_floating (text, url)">
+    <div class="row justify-content-center">
+        <a class="btn btn-primary m-4 p-2" type="link"
+            style="filter: drop-shadow(0em 0.2em 0.2em rgba(0, 0, 0, 0.25))"
+            th:href="@{${url}}">[[${text}]]</a>
+    </div>
+</div>
+
+<!-- Button principal en rojo -->
+<div th:fragment="btn_primary_base (text)">
+    <div class="d-grid">
+        <button class="btn btn-primary" type="submit" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))">[[${text}]]
+    </button>
+    </div>
+</div>
+
+<!-- Button principal en rosa submit -->
+<div th:fragment="btn_primary2_submit (text, url)">
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary2" type="submit" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))"
+        th:href="@{${url}}">[[${text}]]</button>
+    </div>
+</div>
+
+<!-- Button principal en rosa link -->
+<div th:fragment="btn_primary2_link (text, url)">
+    <div class="d-grid gap-2">
+        <a class="btn btn-primary2" type="link" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))"
+        th:href="@{${url}}">[[${text}]]</a>
+    </div>
+</div>
+
+<!-- Button principal en blanco link -->
+<div th:fragment="btn_white_link (text, url)">
+    <div class="d-grid gap-2">
+        <a class="btn btn-white" type="link" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))"
+        th:href="@{${url}}">[[${text}]]</a>
+    </div>
+</div>
+
+<!-- Button principal en rosa -->
+<div th:fragment="btn_primary2_base (text)">
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary2" type="submit" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))">[[${text}]]</button>
+    </div>
+</div>
+
+<!-- Button secundario en gris -->
+<div th:fragment="btn_secundary_base (text)">
+    <div class="d-grid">
+        <button class="btn btn-secondary" type="submit" 
+        style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))">[[${text}]]</button>
+    </div>
+</div>
+
+<!-- Button papelera -->
+    <a th:fragment="btn_trash_base" href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button">
+    <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Button llamada uf_modal -->
+<a th:fragment="btn_uf_modal" href="#newUfModal" class="btn btn_primary_base" data-bs-toggle="modal" role="button">
+  <img class="mx-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.uf}"></a>
+
+  <!-- uf_modal -->
+<div th:fragment="uf_modal (title)" class="modal fade" id="newUfModal" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-lg">
+    <div class="modal-content">
+      <div th:insert="modals/fragments_modal.html :: header_modal (#{add.uf.title})"></div>
+      <div class="modal-body">
+        <div class="container">
+          <!-- FORM -->
+          <form action="#" th:action="@{/programacion/uf/save}" th:object="${newUf}" method="post" id="ufForm">
+            <!-- HIDDEN INPUTS -->
+            <input type="hidden" th:field="*{id_uf}" id="id_uf_modal" name="id_uf_modal">
+            <input type="hidden" th:field="*{curso.id_curso}" id="curso_uf_modal"
+              name="curso_uf_modal">
+
+            <!-- PLAN UF -->
+            <div class="row mb-3">
+              <select class="col form-select form-select-lg mb-3" id="select_uf_modal" name="select_uf_modal"
+                data-bs-toggle="dropdown" aria-expanded="false" aria-labelledby="dropdownMenuButton"
+                th:field="*{planUf.id_planUf}" onchange="actualizarHorasUf(this)" required>
+                <option value="" disabled selected hidden>[[#{select.default.text}]]</option>
+                <option th:each="planUFSelect : ${planUfs}"
+                        th:value="${planUFSelect.id_planUf}"
+                        th:text="|${planUFSelect.cod_planUf} - ${planUFSelect.nombre}|"
+                        th:data-planuf-id="${planUFSelect.id_planUf}" 
+                        th:data-horas-planuf="${planUFSelect.horas_planUf}"
+                        th:data-plan-asignatura-id="${planUFSelect.planAsignatura.id_planAsignatura}"
+                        class="planUfOption_modal">
+                </option>
+              </select>
+            </div>
+
+            <!-- FECHAS -->
+            <div class="row mb-3">
+              <!-- inicio-->
+              <div class="form-group col row">
+                <label for="inicio_uf" class="col col-form-label" th:text="#{dateinit.lable}"></label>
+                <input type="date" class="form-control col" id="inicio_uf_modal" th:field="*{inicio_uf}"
+                  name="inicio_uf_modal" required>
+              </div>
+              <!-- fin -->
+              <div class="form-group col row">
+                <label for="fin_uf" class="col col-form-label" th:text="#{dateend.lable}"></label>
+                <input type="date" class="form-control col" id="fin_uf_modal" th:field="*{fin_uf}" name="fin_uf_modal"
+                  required>
+              </div>
+            </div>
+
+            <!-- HORAS -->
+            <div class="row mb-3 align-items-start">
+              <div class="col-6">
+                <div class="row justify-content-between">
+                  <label for="horas_uf" class="col col-form-label" th:text="#{hours.lable}"></label>
+                  <!-- horas -->
+                  <input type="number" class="form-control col" th:field="*{horas_uf}" id="horas_uf_modal"
+                    name="horas_uf_modal" required onchange="actualizarPorcentajeHorasUf(this)">
+                    <!-- th:data-horas-total="*{newUf.planAsignatura.horas_planAsignatura}"> -->
+                </div>
+              </div>
+            </div>
+            <!-- BOTÓN CONFIRMAR -->
+            <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+          </form>
+        </div>
+      </div>
+      <!-- BOTÓN ELIMINAR -->
+      <div class="modal-footer" id="newUfModalFooter">
+        <!-- DELETE BUTTON -->
+        <div class="row justify-content-center">
+          <a href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button"
+            onclick="deleteUfFromModal()">
+            <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS ---------------------------------------------------------------- -->
+  <!-- FILTRO DROPDOWN UF -->
+  <script th:inline="javascript">
+    function filterUFDropdown() {
+      //  get plan asignatura
+      var allCourseDataElement = document.getElementById('div_datos_curso')
+      var idPlanAsignatura = allCourseDataElement.getAttribute('data-course-planasig')
+      //  get all option elements
+      var options = document.querySelectorAll('.planUfOption_modal');
+      //  filter displayed elements
+      for (var i = 0; i < options.length; i++) {
+        var idAsignatura = options[i].getAttribute("data-plan-asignatura-id");
+        if (idAsignatura != idPlanAsignatura) {
+          $(options[i]).prop('disabled', 'disabled').hide();
+          $(options[i]).prop('hidden', 'hidden').hide();
+        } else {
+          $(options[i]).removeAttr('disabled').show();
+          $(options[i]).removeAttr('hidden').show();
+        }
+      }
+    }
+  </script>
+
+  <!-- ACTUALIZAR HORAS -->
+  <script th:inline="javascript">
+    function actualizarHorasUf(element) {
+      //  find input hours
+      var inputHours = document.getElementById('horas_uf_modal')
+      //  get selected plan UF id
+      var selectedPlanUfId = element.value
+      //  get all option elements
+      var options = document.querySelectorAll('.planUfOption_modal');
+      for (var i = 0; i < options.length; i++) {
+        var optionId = options[i].getAttribute('data-planuf-id')
+        if (optionId == selectedPlanUfId) {
+          inputHours.value = options[i].getAttribute('data-horas-planuf')
+          actualizarPorcentajeHorasUf(inputHours)
+        }
+      }
+    }
+  </script>
+
+  <!-- ACTUALIZAR PORCENTAJE -->
+  <script th:inline="javascript">
+    function actualizarPorcentajeHorasUf(element) {
+      var lablePorcentaje = document.getElementById('label_porcentaje_horas')
+      // var horas_total = element.getAttribute('data-horas-total')
+      // var porcentaje = element.value/horas_total*100
+      lablePorcentaje.innerHTML = porcentaje + '%'
+    }
+  </script>
+</div>

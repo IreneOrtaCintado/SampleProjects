@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="es" th:fragment="html_base">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--script src="asset/js/jquery-3.3.1.min.js"></script-->
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <link href="../static/css/custom.css" rel="stylesheet" th:href="@{/css/custom.css}" type="" />
+
+    <!-- font awesome 4 icons -->
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"-->
+
+    <title>[[#{program.title}]]</title>
+</head>
+
+<body>
+
+    <!-- Header ventana base, nombre y menú -->
+    <div th:fragment="header_base (navTitle, backURL)">
+        <nav class="navbar navbar-dark bg-primary fixed-top">
+            <div class="container-fluid">
+                <a class="btn btn-primary" type="button" th:href="@{/}+${backURL}">
+                    <img th:src="@{/icons/arrow-left.svg}" alt="" width="30" height="30" class="d-inline-block">
+                </a>
+                <h1 class="navbar-brand m-2">[[${navTitle}]]</h1>
+                <button class="navbar-toggler text-white d-flex" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#menu" aria-controls="menu">
+                    <!-- TODO: Descomentar el $user. Lo comento para que no de error en cada refresco en las pruebas -->
+                    <div class="my-1">[[${user}]]</div>
+                    <div class="ms-4">
+                        <img th:src="@{/icons/user.svg}" alt="" width="30" height="30"
+                            class="d-inline-block align-text-top">
+                    </div>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="menu" aria-labelledby="omenuLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="menuLabel" th:text="#{options.lable}"></h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!--a class="nav-link" href="#" th:text="#{edituser.lable}"></a-->
+                        <div class="row">
+                            <div class="container-fluid" th:replace="fragments/page.html :: combobox_languages"></div>
+                        </div>
+                        <a class="nav-link" href="/app_login" th:text="#{logout.lable}"></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <div th:insert="fragments/page.html :: script_languages"></div>
+    </div>
+
+    <div th:fragment="header_base_main">
+        <nav class="navbar navbar-dark bg-primary fixed-top">
+            <div class="container-fluid">
+                <!--a class="btn btn-primary" type="button" th:href="@{/}+${backURL}">
+                    <img th:src="@{/icons/arrow-left.svg}" alt="" width="30" height="30" class="d-inline-block">
+                </a-->
+                <h1 class="navbar-brand">[[#{program.title}]]</h1>
+                <!--h1 class="navbar-brand">[[#{modulos.title}]]</h1-->
+                <button class="navbar-toggler text-white d-flex" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#menu" aria-controls="menu">
+                    <!-- TODO: Descomentar el $user. Lo comento para que no de error en cada refresco en las pruebas -->
+                    <div class="my-1">[[${user}]]</div>
+                    <div class="ms-4">
+                        <img th:src="@{/icons/user.svg}" alt="" width="30" height="30"
+                            class="d-inline-block align-text-top">
+                    </div>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="menu" aria-labelledby="omenuLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="menuLabel" th:text="#{options.lable}"></h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!--a class="nav-link" href="#" th:text="#{edituser.lable}"></a-->
+                        <div class="row">
+                            <div class="container-fluid" th:replace="fragments/page.html :: combobox_languages"></div>
+                        </div>
+                        <a class="nav-link" href="/app_login" th:text="#{logout.lable}"></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <div th:insert="fragments/page.html :: script_languages"></div>
+    </div>
+
+    <div th:fragment="header_base_login">
+        <nav class="navbar navbar-dark bg-primary fixed-top">
+            <div class="container-fluid">
+                <h1 class="navbar-brand">[[#{program.title}]]</h1>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu"
+                    aria-controls="menu">
+                    <!-- TODO: Descomentar el $user. Lo comento para que no de error en cada refresco en las pruebas -->
+                    <!-- [[${user}]] -->
+                    <img th:src="@{/icons/user.svg}" alt="" width="30" height="30"
+                        class="d-inline-block align-text-top">
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="menu" aria-labelledby="omenuLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="menuLabel" th:text="#{options.lable}"></h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!--a class="nav-link" href="#" th:text="#{edituser.lable}"></a-->
+                        <div class="row">
+                            <div class="container-fluid" th:replace="fragments/page.html :: combobox_languages"></div>
+                        </div>
+                        <!--a class="nav-link" href="#" th:text="#{logout.lable}"></a-->
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <br>
+        <br>
+        <div th:insert="fragments/page.html :: script_languages"></div>
+    </div>
+
+    <!-- ComboBox Idiomas -->
+    <div th:fragment="combobox_languages">
+        <div class="nav-link d-flex">
+            <div class="col col-3">[[#{lang.lable}]]</div>
+            <select class="dropdown col col-3" id="locales" onchange="changeLanguage(this)"
+                th:value="${selectedLanguage}">
+                <option value="" selected hidden></option>
+                <option th:each="language : ${languages}" th:text="${language.nombre}" th:value="${language.nombre}">
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Script Idiomas -->
+    <div th:fragment="script_languages">
+        <script th:inline="javascript">
+            function changeLanguage(select) {
+                var selectedOption = select.value
+                var localCode
+                switch (selectedOption) {
+                    case "ESP":
+                        localCode = "es";
+                        break;
+                    case "ENG":
+                        localCode = "en";
+                        break;
+                    case "CAT":
+                        localCode = "ca";
+                        break;
+                    default:
+                }
+                if (localCode != '') {
+                    var pathName = window.location.pathname
+                    window.location.replace(pathName + '?lang=' + localCode);
+                }
+            };
+        </script>
+    </div>
+
+    <!-- Script boostrap -->
+    <div th:fragment="script_bootstrap">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    </div>
+
+    <!-- footer ventana base con logo, copywrite y nombre app -->
+    <div th:fragment="footer_base">
+        <!-- <div><br></div> -->
+        <nav class="navbar navbar-light bg-light fixed-bottom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <!--img th:src="@{/icons/logo.svg}" alt="" width="30" height="30"
+                        class="d-inline-block align-text-top"-->
+                    &copy; 2022 GesProg IRMA
+                </a>
+            </div>
+        </nav>
+        <div style="height:3em"></div>
+    </div>
+
+</body>
+
+</html>

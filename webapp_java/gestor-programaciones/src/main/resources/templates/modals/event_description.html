@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="event_description_modal (title)">
+    <div class="modal fade" id="eventDescriptionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-center">
+            <div class="modal-content">
+
+                <div th:insert="modals/fragments_modal.html :: header_modal (#{add.group.title})"></div>
+
+                <div class="modal-body">
+                    <div class="container">
+
+                        <form action="#" th:action="@{/evento/save}" th:object="${newEvento}" method="post">
+                            <input type="hidden" th:field="*{id_evento}" name="modal_descripcion_evento_id"
+                                id="modal_descripcion_evento_id">
+                            <div class="form-group mb-3">
+                                <div class="row mx-0">
+                                    <label for="modal_event_description" class="col-sm-3 col-form-label"
+                                        th:text="#{description.lable}"></label>
+
+                                </div>
+                                <div class="row mx-2">
+                                    <textarea class="" type="text" th:field="*{comenta}" id="modal_event_description"
+                                        name="modal_event_description"></textarea>
+                                </div>
+
+                            </div>
+                            <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <!--div class="container-fluid">
+                        <div th:insert="fragments/buttons :: btn_trash_base"></div>
+                        <div th:insert="modals/confirm_delete :: confirm_delete_modal (url='/grupo/delete/{id_grupo}')">
+                        </div>
+                    </div-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

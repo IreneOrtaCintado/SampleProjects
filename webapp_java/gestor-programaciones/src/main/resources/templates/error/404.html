@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/page.html :: html_base"></head>
+
+<body>
+<div th:insert="fragments/page.html :: header_base(navTitle='ERROR 404', backURL='modulos')"></div>
+
+<!-- TODO INCLUIR CONTENIDO -->
+<div class="text-center"> 
+        <br>
+        <br>
+        <h1>ERROR 404: Page not found</h1>
+  
+    
+</div>
+
+<footer>
+    <div th:insert="fragments/page.html :: footer_base"></div>
+</footer>
+
+<!-- JS Bootstrap Bundle with Popper -->
+<div th:insert="fragments/page.html ::script_bootstrap"></div>
+
+</body>
+</html>

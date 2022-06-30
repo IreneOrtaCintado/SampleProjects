@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Button llamada event_modal -->
+<a th:fragment="btn_event_modal" href="#modalEventForm" class="btn btn_primary_base" data-bs-toggle="modal"
+  role="button">
+  <img class="mx-2 align-bottom" th:src="@{/icons/plus-circle.svg}" alt="agregar" th:text="#{add.event}"></a>
+<!-- MODAL EVENTOS -->
+<div th:fragment="event_modal (title)">
+  <div class="modal fade" id="modalEventForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+      <div class="modal-content">
+        <!-- header -->
+        <div th:insert="modals/fragments_modal.html :: header_modal (#{add.event.title})"></div>
+        <!-- body -->
+        <div class="modal-body">
+          <div class="container">
+            <!-- FORM -->
+            <form action="#" th:action="@{/diario/evento/save}" th:object="${eventoFormObj}" method="post"
+              id="eventForm">
+              <!-- HIDDEN FIELDS -->
+              <input type="hidden" th:field="*{id_evento}" id="modal_evento_id">
+              <!-- TIPO -->
+              <div class="form-group row mb-3">
+                <label for="tipo" class="col-sm-2 col-form-label" th:text="#{type.lable}"></label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="selectEventType" id="modal_tipo_evento"
+                    th:field="${eventoFormObj.tipoEvento.id_tipoEvento}" required>
+                    <!--option value="" disabled selected hidden>[[#{select.default.text}]]</option-->
+                    <option th:each="tipoEventoSel : ${tiposEventos}" th:value="${tipoEventoSel.id_tipoEvento}"
+                      th:text="${tipoEventoSel.nombre}"></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- FECHA -->
+              <div class="form-group row mb-3">
+                <label for="fecha" class="col-sm-2 col-form-label" th:text="#{date.lable}"></label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="modal_fecha" th:field="*{fecha}" name="fecha"
+                    th:required="required">
+                </div>
+              </div>
+
+              <!-- HORAS -->
+              <div class="form-group row mb-3">
+                <!-- PREVISTAS -->
+                <div class="col-sm-6">
+                  <div class="row ">
+                    <div class="col-sm-6">
+                      <label for="horas_prev" class="col-sm-2 col-form-label" th:text="#{hrspre.lable}"></label>
+                    </div>
+                    <div class="col-sm-6 align-self-center">
+                      <input type="number" step="0.25" class="form-control" id="modal_horas_prev"
+                        th:field="*{horasPrev}" name="horasPrev" min="0" max="99" required
+                        onchange="horasRealesEqualPrev(this)">
+                    </div>
+                  </div>
+                </div>
+                <!-- REALES -->
+                <div class="col-sm-6">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="horas_real" class="col-sm-2 col-form-label" th:text="#{hrsreal.lable}"></label>
+                    </div>
+                    <div class="col-sm-6 align-self-center">
+                      <input type="number" step="0.25" class="form-control" id="modal_horas_real"
+                        th:field="*{horasReal}" name="horas_real" min="0" max="99"
+                        onchange="checkRangeHorasReales(this)">
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- FIN HORAS -->
+
+              <!-- DESCRIPCIÓN -->
+              <div class="form-group row mb-3">
+                <label for="modal_event_description" class="col-sm-2 col-form-label"
+                  th:text="#{description.lable}"></label>
+                <div class="row mx-0">
+                  <textarea class="form-control" type="text" rows="4" th:field="*{comenta}" id="modal_event_description"
+                    name="modal_event_description" maxlength="255"></textarea>
+                </div>
+              </div>
+
+              <!-- ACCEPT BUTTON -->
+              <div th:insert="fragments/buttons.html :: btn_primary2_base (#{confirm.lable})"></div>
+            </form>
+          </div>
+        </div> <!-- fin body -->
+
+        <!-- footer -->
+        <div id="newEventModalFooter" class="modal-footer justify-content-center">
+          <!-- DELETE BUTTON -->
+          <div class="row justify-content-center">
+            <a href="#confirmDelete" class="btn btn-outline-light border-0 col" data-bs-toggle="modal" role="button"
+              onclick="deleteEventFromModal()">
+              <img th:src="@{/icons/trash.svg}" alt="agregar"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS ---------------------------------------------------------------- -->
+  <!-- FIELD HORAS REALES -->
+  <script th:inline="javascript">
+    function horasRealesEqualPrev(element) {
+      var horasRealesElement = document.getElementById("modal_horas_real")
+      var horasPrev = element.value
+      if (horasPrev > 99) {
+        horasPrev = 99
+      }
+      horasRealesElement.value = horasPrev
+    }
+
+    function checkRangeHorasReales(element) {
+      var horasReales = element.value
+      if (horasReales > 99) {
+        horasReales = 99
+      }
+      element = horasReales
+    }
+  </script>
+</div>

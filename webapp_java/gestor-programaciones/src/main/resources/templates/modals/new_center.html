@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Button llamada centro_modal -->
+<a th:fragment="btn_center_modal" href="#newCenter" class="btn btn_primary_base px-0" data-bs-target="#newCenter"
+  data-bs-toggle="modal" data-bs-dismiss="modal" role="button">
+  <img class="p-0 float-left" th:src="@{/icons/plus-circle.svg}" alt="agregar">
+</a>
+
+<!-- MODAL CENTRO -->
+<div th:fragment="center_modal (title)" class="modal fade" id="newCenter" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <!-- header -->
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" style="color: white">[[${title}]]</h5>
+      </div>
+      <!-- body -->
+      <div class="modal-body">
+        <div class="container">
+          <!-- FORM -->
+          <form action="#" th:action="@{/centro/save}" th:object="${newCentro}" method="post" id="new_center_form">
+            <!-- HIDDEN FIELDS -->
+            <input type="hidden" th:field="*{id_centro}" name="id_centro_modal" id="id_centro_modal">
+            <!-- NOMBRE CENTRO -->
+            <div class="form-group row mb-3">
+              <label for="centro" class="col-sm-2 col-form-label" th:text="#{name.lable}"></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{nombre}" id="nombre_centro_modal"
+                  name="nombre_centro_modal" onchange="checkFieldsNotEmpty()" required>
+              </div>
+            </div>
+
+            <!-- EMAIL CENTRO -->
+            <div class="form-group row mb-3">
+              <label for="mail" class="col-sm-2 col-form-label" th:text="#{mail.lable}"></label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" th:field="*{mail}" id="mail_centro_modal"
+                  name="mail_centro_modal" onchange="checkFieldsNotEmpty()" required>
+              </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="d-grid gap-2">
+              <!-- aceptar -->
+              <button class="btn btn-primary2" href="#newCourseModal" id="new_centro_accept_button"
+                data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#newCourseModal"
+                style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25))" th:text="#{confirm.lable}"
+                onclick="addNewCenterToNewCourseModal(this)" disabled></button>
+              <!-- cancelar -->
+              <a href="#newCourseModal" class="btn btn-white" data-bs-target="#newCourseModal" data-bs-toggle="modal"
+                data-bs-dismiss="modal" role="button" th:text="#{cancel.lable}"></a>
+            </div>
+          </form>
+        </div>
+      </div> <!-- fin body -->
+    </div>
+  </div>
+
+  <!-- JS ---------------------------------------------------------------- -->
+  <!-- ADD DATA TO COURSE MODAL -->
+  <script th:inline="javascript">
+    // new centros have a temporary id < -1
+    var newSelectValue = -2
+    function addNewCenterToNewCourseModal(button) {
+      // find select centros
+      var select = document.getElementById('centro_modal');
+      // get vaules
+      var nombreCentro = document.getElementById('nombre_centro_modal').value;
+      var emailCentro = document.getElementById('mail_centro_modal').value;
+      //  create new option and send data
+      var opt = document.createElement('option');
+      opt.value = newSelectValue;
+      opt.innerHTML = nombreCentro;
+      opt.setAttribute('data-nombre-centro', nombreCentro);
+      opt.setAttribute('data-email-centro', emailCentro);
+      opt.setAttribute('data-id-centro', newSelectValue);
+      select.appendChild(opt);
+      select.value = newSelectValue
+      //  set hidden fields
+      document.getElementById('curso_centro_nombre_field').value = nombreCentro
+      document.getElementById('curso_centro_email_field').value = emailCentro
+      // update new id
+      newSelectValue--
+      // reset form
+      document.getElementById('new_center_form').reset()
+      // disable button
+      button.disabled = true
+    }
+  </script>
+
+  <!-- CHECK FIELDS NOT EMPTY -->
+  <script th:inline="javascript">
+    function checkFieldsNotEmpty() {
+      button = document.getElementById('new_centro_accept_button')
+      valueNombre = document.getElementById('nombre_centro_modal').value
+      valueEmail = document.getElementById('mail_centro_modal').value
+      if (valueNombre != "" && valueEmail != "") {
+        // enable button
+        button.disabled = false
+      } else {
+        // disable button
+        button.disabled = true
+      }
+    }
+  </script>
+</div> <!-- FIN MODAL CENTRO -->

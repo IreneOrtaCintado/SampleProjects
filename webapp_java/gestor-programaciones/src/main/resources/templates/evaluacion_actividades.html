@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/page.html :: html_base"></head>
+
+<body>
+    <!-- contenedor ajusta tamaño pantalla -->
+    <div class="container-fluid vh-100">
+        <!-- NAV -->
+        <div
+            th:insert="fragments/page.html :: header_base (navTitle=#{evaluacion.act.nav.title}, backURL='evaluacion/'+${selectedAct.uf.curso.id_curso})">
+        </div>
+        <!-- CONTENIDO -->
+        <div class="row justify-content-center">
+            <!-- PANEL LATERAL -->
+            <div th:if="${!actividadesUf.isEmpty()}" class="col m-4 p-0" style="width:20em;">
+                <div class="row bg-light m-0 px-2 py-4">
+                    <h4 class="text-center pb-3">[[#{eval.act.lable}]]</h4>
+                    <!-- selección de actividad -->
+                    <div th:if="${!actividadesUf.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="actividad : ${actividadesUf}" id="eachAct">
+                            <a class="btn col d-flex text-start" type="link"
+                                th:href="@{/evaluacion_actividades/(selectedAct=${actividad.id_act})}"
+                                th:classappend="${currentActId}==${actividad.id_act}?'btn-primary2':'btn-white'">
+                                [[${actividad.cod_act}]]
+                            </a>
+                        </div>
+                    </div>
+                    <!-- MODAL ACTIVIDADES -->
+                </div>
+                <br>
+                <!-- PANEL GRUPOS -->
+                <div class="row bg-light m-0 px-2 py-4">
+                    <!-- titulo -->
+                    <h5 class="text-center pb-3">[[#{groups.lable}]]</h5>
+                    <!-- lista grupos -->
+                    <div th:if="${!grupos.isEmpty()}">
+                        <div class="row m-2 bg-white" th:each="grupoAula : ${grupos}" id="eachGroup">
+                            <a class="btn col d-flex text-start" type="link"
+                                th:href="@{/evaluacion_actividades/(selected_group=${grupoAula.id_grupo})}"
+                                th:classappend="${currentGroupId}==${grupoAula.id_grupo}?'btn-primary2':'btn-white'">
+                                [[${grupoAula.nombre}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- FIN PANEL LATERAL -->
+
+            <!-- PANEL PRINCIPAL -->
+            <div class="col-10 my-4 mx-2 pe-4">
+                <div class="row" th:if="${!actividadesUf.isEmpty()}">
+                    <h3 class="col">[[${selectedAct.uf.planUf.planAsignatura.planEstudio.cod_planEstudio}]] -
+                        [[${selectedAct.uf.planUf.planAsignatura.cod_planAsignatura}]] -
+                        [[${selectedAct.uf.planUf.cod_planUf}]] - [[${selectedAct.nombre}]]
+                    </h3>
+                </div>
+                <h3 th:if="${actividadesUf.isEmpty()}">[[${codigoEstudios}]] [[${codigoModulo}]] ([[${anyoModulo}]]) -
+                    [[#{groups.no.group.available}]]</h3>
+                <br>
+                <!-- TABLA -->
+                <div class="row d-flex m-0 p-0">
+                    <!-- ALUMNOS --------------------- --------------------- -->
+                    <div class="table-responsive col col-3 pe-1" style="min-width:10em;">
+                        <table class="table table-borderless">
+                            <thead>
+                                <!-- TH1 -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <th scope="colgroup">&nbsp;</th>
+                                </tr>
+                                <!-- TH2 -->
+                                <tr>
+                                    <th></th>
+                                </tr>
+                                <!-- TH3 -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <!-- TH1 -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <th>[[${#strings.toUpperCase(currentGroup.nombre)}]]</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                <!-- EMPTY ROW -->
+                                <tr class="bg-white align-middle" th:if="${#lists.size(alumnosGrupoCurso)==1}"
+                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                    <td style="height: 4em">&nbsp;</td>
+                                </tr>
+                                <!-- EACH ALUMNO -->
+                                <tr th:each="alumno : ${alumnosGrupoCurso}" class="bg-white align-middle"
+                                    id="eachAlumno" th:if="${alumno.id_alumno!=-1}"
+                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25)); line-height: 1.5em; max-height: 4em; height: 4em;">
+                                    <td style="height: 4em">
+                                        <h6 class="text-start text-truncate">
+                                            [[${alumno.nombre}]]
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                <tr>
+                                    <td class="ps-0"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- NOTAS --------------------- --------------------- -->
+                    <div class="col ps-1 d-flex align-items-start" style="overflow-x:scroll;">
+                        <table class="table table-borderless col">
+                            <!-- head -->
+                            <thead>
+                                <colgroup span="4"></colgroup>
+                                <!-- TH1 --------------------- -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <div th:if="${!listaRAsUf.isEmpty() and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra, iterData : ${listaRAsUf}">
+                                            <th></th>
+                                            <th class="bg-light text-center elementHeaderRAs" colspan="1"
+                                                th:data-index="${iterData.index}">
+                                                [[${ra.planRa.cod_planRa}]]
+                                            </th>
+                                        </div>
+                                    </div>
+                                    <th hidden></th>
+                                    <!-- COMMENT -->
+                                    <th class="bg-light" hidden>Comentarios</th>
+                                    <th>&nbsp;</th>
+                                    <!-- RA TOTAL -->
+                                    <th class="bg-primary2 text-center text-white"
+                                        th:colspan="${#lists.size(listaRAsUf)}">
+                                        Totales
+                                    </th>
+                                </tr>
+                                <!-- TH2 --------------------- -->
+                                <tr>
+                                    <th></th>
+                                </tr>
+                                <!-- TH3 --------------------- -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <div th:if="${!listaRAsUf.isEmpty()  and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra, iterData : ${listaRAsUf}">
+                                            <th></th>
+                                            <!-- EACH APARTADO -->
+                                            <th th:each="apartado : ${listaApartadosAct}"
+                                                th:if="${apartado.ra.id_ra==ra.id_ra}"
+                                                class="bg-light text-center elementCountApartado"
+                                                style="overflow:hidden; white-space:nowrap; text-overflow: ellipsis;"
+                                                th:data-index="${iterData.index}">
+                                                [[${apartado.descripcion}]]
+                                            </th>
+                                        </div>
+                                    </div>
+                                    <!-- JS - updateValuesOnTableHeader -->
+                                    <script th:inline="javascript">
+                                        function updateValuesOnTableHeader() {
+                                            var counter = 0
+                                            var columnsHeaderRAs = document.querySelectorAll('.elementHeaderRAs')
+                                            var columnsApartadosRA = document.querySelectorAll('.elementCountApartado')
+                                            for (var j = 0; j < columnsHeaderRAs.length; j++) {
+                                                for (var i = 0; i < columnsApartadosRA.length; i++) {
+                                                    if (columnsApartadosRA[i].getAttribute('data-index') == columnsHeaderRAs[j].getAttribute('data-index')) {
+                                                        counter++
+                                                    }
+                                                }
+                                                columnsHeaderRAs[j].setAttribute('colspan', counter)
+                                                console.log(counter)
+                                                if (counter == 0) {
+                                                    columnsHeaderRAs[j].style.display = 'none'
+                                                } else {
+                                                    columnsHeaderRAs[j].style.display = ''
+                                                }
+                                                counter = 0
+                                            }
+                                        }
+                                        updateValuesOnTableHeader();
+                                    </script>
+                                    <th hidden></th>
+                                    <!-- COMMENT -->
+                                    <th class="bg-light" hidden></th>
+                                    <th>&nbsp;</th>
+                                    <div th:if="${!listaRAsUf.isEmpty()}">
+                                        <!-- EACH RA TOTAL -->
+                                        <th th:each="ra : ${listaRAsUf}" class="bg-primary2 text-center text-white">
+                                            [[${ra.planRa.cod_planRa}]]
+                                        </th>
+                                    </div>
+                                </tr>
+                                <!-- TH4 --------------------- -->
+                                <tr style="line-height: 1.5em; min-height: 1.5em; height: 1.5em;">
+                                    <div th:if="${!listaRAsUf.isEmpty()  and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra : ${listaRAsUf}">
+                                            <th style="max-width: 0.5em; width: 0.5em"></th>
+                                            <!-- EACH APARTADO -->
+                                            <th th:each="apartado : ${listaApartadosAct}"
+                                                th:if="${apartado.ra.id_ra==ra.id_ra}" class="bg-light text-center">
+                                                [[${apartado.peso_apdo_act_ra}]]%
+                                            </th>
+                                        </div>
+                                    </div>
+                                    <th>&nbsp;</th>
+                                    <!-- COMMENT -->
+                                    <th class="bg-light" hidden></th>
+                                    <th style="max-width: 0.5em; width: 0.5em" hidden>&nbsp;</th>
+                                    <div th:if="${!listaRAsUf.isEmpty()}">
+                                        <!-- EACH RA TOTAL -->
+                                        <th th:each="ra : ${listaRAsUf}" class="bg-primary2 text-center text-white"
+                                            style="max-width: 5em; width: 0.5em">
+                                            <div th:each="peso : ${listaPesosRaAct}"
+                                                th:if="${ra.id_ra == peso.ra.id_ra}">
+                                                [[${peso.porcent_pesoActRa}]]%
+                                            </div>
+                                        </th>
+
+                                    </div>
+                                    <th style="max-width: 0.5em; width: 0.5em">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <!-- body --------------------- -->
+                            <tbody
+                                style="border-collapse: separate; border-spacing:0em 0.65em; line-height: 1.5em; max-height: 4em; height: 4em;">
+                                <!-- EMPTY ROW -->
+                                <tr class="bg-white align-middle" th:if="${#lists.size(alumnosGrupoCurso)==1}"
+                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                    <!-- NOTA APARTADO ALUMNO -->
+                                    <div th:if="${!listaRAsUf.isEmpty()  and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra : ${listaRAsUf}">
+                                            <td></td>
+                                            <!-- EACH APARTADO -->
+                                            <td th:each="apartado : ${listaApartadosAct}"
+                                                th:if="${apartado.ra.id_ra==ra.id_ra}">
+                                            </td>
+                                        </div>
+                                    </div>
+                                    <td hidden></td>
+                                    <!-- COMMENT -->
+                                    <td hidden></td>
+                                    <td style="height: 4em">&nbsp;</td>
+                                    <!-- EACH RA TOTAL -->
+                                    <td th:each="ra : ${listaRAsUf}" style="width:5em; width:5em;">
+                                    </td>
+                                    <td style="max-width: 0.5em; width: 0.5em"></td>
+                                </tr>
+                                <!-- EACH ALUMNO -->
+                                <tr th:each="alumno : ${alumnosGrupoCurso}" class="bg-white align-middle"
+                                    th:if="${alumno.id_alumno!=-1}" id="eachAlumno"
+                                    style="filter: drop-shadow(0em 0.1em 0.1em rgba(0, 0, 0, 0.25));">
+                                    <!-- NOTA APARTADO ALUMNO -->
+                                    <div th:if="${!listaRAsUf.isEmpty()  and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra : ${listaRAsUf}">
+                                            <td></td>
+                                            <!-- EACH APARTADO -->
+                                            <td class="notasApartadoCell" th:each="apartado : ${listaApartadosAct}"
+                                                th:if="${apartado.ra.id_ra==ra.id_ra}">
+                                                <!-- EACH EVALUACIONES -->
+                                                <div class="row align-items-center"
+                                                    th:each="evaluacion : ${listaEvalaucionesAct}"
+                                                    th:if="${evaluacion.alumno.id_alumno==alumno.id_alumno and evaluacion.apartado.id_apdo==apartado.id_apdo}">
+                                                    <!-- input with data -->
+                                                    <input type="number" step="0.01"
+                                                        class="col align-self-center form-control text-center mx-2 inputNota"
+                                                        style="width:5em; width:5em;" id="inputNota" min="0" max="10"
+                                                        onchange="updateNota(this)" th:value="${evaluacion.nota}"
+                                                        th:data-id-alumno="${alumno.id_alumno}"
+                                                        th:data-id-apartado="${apartado.id_apdo}"
+                                                        th:data-id-ra="${apartado.ra.id_ra}"
+                                                        th:data-peso-apartado-ra="${apartado.peso_apdo_act_ra}">
+                                                </div>
+                                                <div class="row align-items-center" style="display: none;">
+                                                    <!-- input no data -->
+                                                    <input type="number" step="0.01"
+                                                        class="col align-self-center form-control text-center mx-2"
+                                                        style="width:5em; width:5em;" id="inputNotaEmpty" min="0"
+                                                        max="10" onchange="updateNota(this)"
+                                                        th:data-id-alumno="${alumno.id_alumno}"
+                                                        th:data-id-apartado="${apartado.id_apdo}"
+                                                        th:data-id-ra="${apartado.ra.id_ra}"
+                                                        th:data-peso-apartado-ra="${apartado.peso_apdo_act_ra}">
+                                                </div>
+                                            </td>
+                                        </div>
+                                    </div>
+                                    <td hidden></td>
+                                    <!-- COMMENT -->
+                                    <td hidden></td>
+                                    <td style="height: 4em">&nbsp;</td>
+                                    <!-- EACH RA TOTAL -->
+                                    <td th:each="ra : ${listaRAsUf}" class="cellTotalRA text-center"
+                                        style="width:5em; width:5em;" th:data-id-ra="${ra.id_ra}"
+                                        th:data-id-alumno="${alumno.id_alumno}">
+                                    </td>
+                                    <td style="max-width: 0.5em; width: 0.5em"></td>
+                                </tr>
+                                <!-- JS - displayEmptyInputs -->
+                                <script th:inline="javascript">
+                                    function displayEmptyInputs() {
+                                        //  obtener todas las celdas donde se introducen notas
+                                        var cellsNotasApartados = document.querySelectorAll('.notasApartadoCell')
+                                        //  recorrer todas las celdas
+                                        for (var i = 0; i < cellsNotasApartados.length; i++) {
+                                            //  contar numero de elementos
+                                            var numElemChildren = cellsNotasApartados[i].childElementCount
+                                            if (numElemChildren == 1) {
+                                                //  mostrar input oculta cuando no hay nota guardada
+                                                cellsNotasApartados[i].firstElementChild.style.display = 'flex'
+                                            }
+                                        }
+                                    }
+                                    displayEmptyInputs();
+                                </script>
+                            </tbody>
+                            <!-- foot --------------------- -->
+                            <tfoot style="border-collapse: separate; border-spacing:0em 0.65em;">
+                                <tr>
+                                    <div th:if="${!listaRAsUf.isEmpty() and !listaApartadosAct.isEmpty()}">
+                                        <!-- EACH RAs -->
+                                        <div th:each="ra : ${listaRAsUf}">
+                                            <td></td>
+                                            <!-- EACH APARTADO -->
+                                            <td class="bg-light" th:each="apartado : ${listaApartadosAct}"
+                                                th:if="${apartado.ra.id_ra==ra.id_ra}"></td>
+                                        </div>
+                                    </div>
+                                    <td hidden></td>
+                                    <!-- COMMENT -->
+                                    <td class="bg-light" hidden></td>
+                                    <td></td>
+                                    <!-- EACH RA TOTAL -->
+                                    <td th:each="ra : ${listaRAsUf}" class="bg-primary2 text-center"></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div> <!-- FIN PANEL PRINCIPAL -->
+
+                    <!-- FORM EVALUACION -->
+                    <form action="#" th:action="@{/evaluacion_actividades/save_nota}" th:object="${newEvaluacion}"
+                        method="post" id="formEvaluacion" hidden>
+                        <input type="number" th:field="${newEvaluacion.alumno.id_alumno}" id="formEvaluacionIdAlumno">
+                        <input type="number" th:field="*{apartado.id_apdo}" id="formEvaluacionIdApartado">
+                        <input type="number" th:field="*{nota}" id="formEvaluacionNota">
+                    </form>
+                </div> <!-- FIN CONTENIDO -->
+
+                <!-- FOOTER -->
+                <footer>
+                    <div th:insert="fragments/page.html :: footer_base"></div>
+                </footer>
+            </div>
+            <!-- JS ---------------------------------------------------------------- -->
+            <script th:inline="javascript">
+                function calculateTotalRaActividad() {
+                    //  obtener todas las celdas con notas totales de RA
+                    var cellsNotasRA = document.querySelectorAll('.cellTotalRA')
+                    //  obtener todas los inputs con notas
+                    var cellsNotasApartados = document.querySelectorAll('.inputNota')
+                    //  recorrer todas las celdas de totales RA
+                    for (var i = 0; i < cellsNotasRA.length; i++) {
+                        var valorTotal = 0
+                        //  obtener id RA y id alumno de la celda total RA
+                        var idRaTotal = cellsNotasRA[i].getAttribute('data-id-ra')
+                        var idAlumnoRa = cellsNotasRA[i].getAttribute('data-id-alumno')
+                        for (var j = 0; j < cellsNotasApartados.length; j++) {
+                            //  obtener id RA y id alumno la celda de la nota del apartado
+                            var idRaApartado = cellsNotasApartados[j].getAttribute('data-id-ra')
+                            var idAlumnoApartado = cellsNotasApartados[j].getAttribute('data-id-alumno')
+                            //  comprobar el alumno y el RA del apartdo
+                            if (idRaApartado == idRaTotal && idAlumnoRa == idAlumnoApartado) {
+                                var pesoApartado = parseFloat(cellsNotasApartados[j].getAttribute('data-peso-apartado-ra'))
+                                var notaApartado = parseFloat(cellsNotasApartados[j].value)
+                                valorTotal = valorTotal + (notaApartado * pesoApartado / 100)
+                            }
+                        }
+                        //  mostrar valor
+                        cellsNotasRA[i].innerHTML = valorTotal.toFixed(2)
+                    }
+                }
+                calculateTotalRaActividad();
+
+                function updateNota(input) {
+                    //  get data from input
+                    var idAlumno = input.getAttribute('data-id-alumno')
+                    var idApartado = input.getAttribute('data-id-apartado')
+                    var nota = input.value
+                    if (nota == '') {
+                        nota = -1   // eliminar registro
+                    } else {
+                        if (nota > 10) {
+                            nota = 10;
+                        } else if (nota < 0) {
+                            nota = 0;
+                        }
+                    }
+
+                    //  set data to form inputs
+                    document.getElementById('formEvaluacionIdAlumno').value = idAlumno
+                    document.getElementById('formEvaluacionIdApartado').value = idApartado
+                    document.getElementById('formEvaluacionNota').value = nota
+                    //  post form info
+                    document.getElementById('formEvaluacion').submit()
+                }
+            </script>
+            <!-- JS Bootstrap Bundle with Popper -->
+            <div th:insert="fragments/page.html ::script_bootstrap"></div>
+</body>
+
+</html>
