@@ -3,8 +3,7 @@
 <h2>JAVA PROJECTS</h2>
 
 <h3>Course Schedule Manager (not finished)</h3>
-<p>A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.</p> 
-<p>Final project of my software development course, done in collaboration with my college Marc Hernández Muñoz<br></p>
+<p>A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.<br></p> 
 
 <table align="center">
      <tr>
@@ -50,6 +49,8 @@
           </td>
      </tr>
 </table>
+<p>This is the final project of my software development course, done in collaboration with my college Marc Hernández Muñoz.<br></p>
+
 
 <h2>ANDROID PROJECTS</h2>
 
