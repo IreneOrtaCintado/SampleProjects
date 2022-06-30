@@ -1,4 +1,4 @@
-<p>The sample projects in this repository are assingments completed during the professional multiplaform development degree that I am currently attending.</p>
+<p>The sample projects in this repository are assignments completed during the professional multiplatform development degree that I am currently attending.</p>
 
 <h2>JAVA PROJECTS</h2>
 
