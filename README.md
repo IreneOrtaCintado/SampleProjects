@@ -11,8 +11,6 @@
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/login_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
-     </tr>
-     <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/new_user_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
@@ -23,8 +21,6 @@
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/main_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
-     </tr>
-     <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/programacion_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
@@ -35,8 +31,6 @@
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
-     </tr>
-     <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_act_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
@@ -47,6 +41,7 @@
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/diario_screen.jpg"
           alt="CSM-Login" title="CSM-Login" style="height:25em;">
           </td>
+          <td></td>
      </tr>
 </table>
 
