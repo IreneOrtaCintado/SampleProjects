@@ -9,50 +9,50 @@
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/login_screen.jpg"
-          alt="Login" title="CSM-Login" style="height:25em;">
+          alt="Login" title="Login" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/new_user_screen.jpg"
-          alt="New User" title="CSM-Login" style="height:25em;">
+          alt="New User" title="New User" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/main_screen.jpg"
-          alt="Main Screen" title="CSM-Login" style="height:25em;">
+          alt="Main Screen" title="Main Screen" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/programacion_screen.jpg"
-          alt="Programación" title="CSM-Login" style="height:25em;">
+          alt="Programación" title="Programación" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_screen.jpg"
-          alt="Evaluación" title="CSM-Login" style="height:25em;">
+          alt="Evaluación" title="Evaluación" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_act_screen.jpg"
-          alt="Evaluación Actividades" title="CSM-Login" style="height:25em;">
+          alt="Evaluación Actividades" title="Evaluación Actividades" style="height:25em;">
           </td>
      </tr>
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/diario_screen.jpg"
-          alt="Diario" title="CSM-Login" style="height:25em;">
+          alt="Diario" title="Diario" style="height:25em;">
           </td>
      </tr>
 </table>
 <br>
 <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
-          alt="ER" title="CSM-Login" style="height:25em;">
-
+          alt="ER" title="ER" style="height:20em;">
+<br>
 <p>This is the final project of my software development course, done in collaboration with my colleague Marc Hernández Muñoz.<br></p>
 
 
