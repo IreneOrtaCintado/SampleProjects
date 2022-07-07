@@ -27,7 +27,7 @@
      <tr>
           <td>
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/programacion_screen.jpg"
-          alt="Programación" title="Programación" style="height:25em;">
+          alt="Programación" title="Programación" style="height:25em;" align="center">
           </td>
      </tr>
      <tr>
