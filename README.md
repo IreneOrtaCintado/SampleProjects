@@ -51,7 +51,7 @@
 </table>
 <br>
 <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
-          alt="ER" title="ER" style="height:25em;">
+          alt="ER" title="ER" style="height:25em; margin-left: auto; margin-right: auto;">
 <br>
 <p>This is the final project of my software development course, done in collaboration with my colleague Marc Hernández Muñoz.<br></p>
 
