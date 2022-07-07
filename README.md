@@ -5,52 +5,42 @@
 <h3>Course Schedule Manager (not finished)</h3>
 <p>A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.<br></p> 
 
-<table align="center">
-     <tr>
-          <td>
+
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/login_screen.jpg"
           alt="Login" title="Login" style="height:25em;">
-          </td>
-     </tr>
-     <tr>
-          <td>
+          </p>
+   
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/new_user_screen.jpg"
           alt="New User" title="New User" style="height:25em;">
-          </td>
-     </tr>
-     <tr>
-          <td>
+          </p>
+
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/main_screen.jpg"
           alt="Main Screen" title="Main Screen" style="height:25em;">
-          </td>
-     </tr>
-     <tr>
-          <td>
+          </p>
+ 
           <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/programacion_screen.jpg"
           alt="Programación" title="Programación" style="height:25em;">
           </p>
-          </td>
-     </tr>
-     <tr>
-          <td>
+
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_screen.jpg"
           alt="Evaluación" title="Evaluación" style="height:25em;">
-          </td>
-     </tr>
-     <tr>
-          <td>
+          </p>
+
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/evalaucion_act_screen.jpg"
           alt="Evaluación Actividades" title="Evaluación Actividades" style="height:25em;">
-          </td>
-     </tr>
-     <tr>
-          <td>
+          </p>
+  
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/diario_screen.jpg"
           alt="Diario" title="Diario" style="height:25em;">
-          </td>
-     </tr>
-</table>
+          </p>
+
 <br>
 <p align="center">
 <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
