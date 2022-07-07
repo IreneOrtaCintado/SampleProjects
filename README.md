@@ -26,8 +26,10 @@
      </tr>
      <tr>
           <td>
+               <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/programacion_screen.jpg"
-          alt="Programación" title="Programación" style="height:25em;" align="center">
+          alt="Programación" title="Programación" style="height:25em;">
+               </p>
           </td>
      </tr>
      <tr>
