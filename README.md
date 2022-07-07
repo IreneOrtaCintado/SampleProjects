@@ -48,13 +48,11 @@
           alt="Diario" title="CSM-Login" style="height:25em;">
           </td>
      </tr>
-     <tr>
-          <td>
-               <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
-          alt="ER" title="CSM-Login" style="height:25em;">
-          </td>
-     </tr>
 </table>
+
+<img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
+          alt="ER" title="CSM-Login" style="height:25em;">
+
 <p>This is the final project of my software development course, done in collaboration with my colleague Marc Hernández Muñoz.<br></p>
 
 
