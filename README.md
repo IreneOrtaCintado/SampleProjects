@@ -5,11 +5,12 @@
 <h3>Course Schedule Manager (not finished)</h3>
 <p>A Spring web application to help teachers in Catalonia (Spain) manage their courses following the official regulations. It allows them to keep a record of the classes, organize the assignments and activities planned for the course, grade them and calculate the final grade. The students can access the platform to view their grades.<br></p> 
 
-<p align="center">
+
+          <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/login_screen.jpg"
           alt="Login" title="Login" style="height:25em;">
-</p>
-   <br>
+          </p>
+   
           <p align="center">
                <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/new_user_screen.jpg"
           alt="New User" title="New User" style="height:25em;">
