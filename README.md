@@ -49,7 +49,7 @@
           </td>
      </tr>
 </table>
-
+<br>
 <img src="https://github.com/IreneOrtaCintado/SampleProjects/blob/master/docs/assets/images/gestorprogramaciones/ER_gesprog.jpeg"
           alt="ER" title="CSM-Login" style="height:25em;">
 
